@@ -35,7 +35,7 @@ export default function StageIndicator({ stage, allocation, computedAt }: Props)
       <p className="mb-4" style={{ color: "var(--text-secondary)" }}>{desc}</p>
 
       {/* Allocation guidance */}
-      <div className="grid grid-cols-4 gap-3 mb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
         {(["bonds", "equities", "commodities", "cash"] as const).map((asset) => {
           const val = allocation[asset];
           const allocColor =
@@ -45,9 +45,9 @@ export default function StageIndicator({ stage, allocation, computedAt }: Props)
             val === "reduce" || val === "low" ? "var(--accent-blue)" :
             "var(--text-muted)";
           return (
-            <div key={asset} className="rounded-lg p-3 text-center" style={{ background: "var(--bg-primary)" }}>
-              <div className="text-xs uppercase" style={{ color: "var(--text-muted)" }}>{asset}</div>
-              <div className="text-sm font-semibold mt-1" style={{ color: allocColor }}>{val}</div>
+            <div key={asset} className="rounded-lg p-2 sm:p-3 text-center flex flex-col justify-center" style={{ background: "var(--bg-primary)" }}>
+              <div className="text-[10px] sm:text-xs uppercase font-medium tracking-tight" style={{ color: "var(--text-muted)" }}>{asset}</div>
+              <div className="text-xs sm:text-sm font-semibold mt-1" style={{ color: allocColor }}>{val}</div>
             </div>
           );
         })}

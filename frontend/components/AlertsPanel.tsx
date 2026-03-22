@@ -80,8 +80,11 @@ function MiniChart({ seriesData, alertKey, color }: MiniChartProps) {
           </defs>
           <XAxis
             dataKey="date"
-            tickFormatter={(d: string) => d.slice(2, 7)}
-            interval={Math.floor(chartData.length / 4)}
+            tickFormatter={(d: string) => {
+              const parts = d.split("-");
+              return `${parts[1]}/${parts[0].slice(2)}`;
+            }}
+            minTickGap={40}
             tick={{ fontSize: 9, fill: "#71717a" }}
             axisLine={false}
             tickLine={false}

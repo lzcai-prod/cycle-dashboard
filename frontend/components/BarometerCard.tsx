@@ -77,8 +77,11 @@ export default function BarometerCard({ barometer, series, label }: Props) {
             <ComposedChart data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
               <XAxis
                 dataKey="date"
-                tickFormatter={(d: string) => d.slice(0, 7)}
-                interval={60}
+                tickFormatter={(d: string) => {
+                  const parts = d.split("-");
+                  return `${parts[1]}/${parts[0].slice(2)}`;
+                }}
+                minTickGap={40}
                 tick={{ fontSize: 10 }}
               />
               <YAxis
