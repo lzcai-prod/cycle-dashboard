@@ -152,9 +152,12 @@ export default function AlertsPanel({ alerts, series }: Props) {
           const seriesData = seriesKey ? series[seriesKey] : undefined;
 
           return (
-            <div
+            <a
               key={key}
-              className="rounded-lg p-3"
+              href={alert.source}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block rounded-lg p-3 hover:bg-zinc-800 transition-colors"
               style={{ background: "var(--bg-primary)", borderLeft: `3px solid ${color}` }}
             >
               <div className="flex items-center justify-between">
@@ -173,17 +176,7 @@ export default function AlertsPanel({ alerts, series }: Props) {
               {seriesData && (
                 <MiniChart seriesData={seriesData} alertKey={key} color={color} />
               )}
-
-              <a
-                href={alert.source}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs mt-1 inline-block"
-                style={{ color: "var(--accent-blue)" }}
-              >
-                FRED →
-              </a>
-            </div>
+            </a>
           );
         })}
       </div>
