@@ -65,7 +65,7 @@ STAGE_MAP = {
 # Data Fetching
 # ---------------------------------------------------------------------------
 
-def fetch_fred(fred, series_id: str, lookback_days: int = 800) -> pd.Series:
+def fetch_fred(fred, series_id: str, lookback_days: int = 7000) -> pd.Series:
     """Fetch a FRED series. Returns pandas Series indexed by date."""
     start = datetime.now() - timedelta(days=lookback_days)
     try:
@@ -79,7 +79,7 @@ def fetch_fred(fred, series_id: str, lookback_days: int = 800) -> pd.Series:
         return pd.Series(dtype=float)
 
 
-def fetch_yahoo(ticker: str, lookback_days: int = 800) -> pd.Series:
+def fetch_yahoo(ticker: str, lookback_days: int = 7000) -> pd.Series:
     """Fetch closing prices from Yahoo Finance."""
     import yfinance as yf
     start = datetime.now() - timedelta(days=lookback_days)
