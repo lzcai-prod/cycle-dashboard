@@ -431,9 +431,15 @@ def compute_historical_stages(raw_data: dict) -> list:
             history.append({
                 "date": date.strftime("%Y-%m-%d"),
                 "stage": stage_num,
-                "bonds": b_sig,
-                "equities": e_sig,
-                "commodities": c_sig
+                "bonds_sig": b_sig,
+                "bonds_val": round(float(row["bonds"]), 4),
+                "bonds_ma": round(float(row["bonds_ma"]), 4),
+                "equities_sig": e_sig,
+                "equities_val": round(float(row["equities"]), 2),
+                "equities_ma": round(float(row["equities_ma"]), 2),
+                "commodities_sig": c_sig,
+                "commodities_val": round(float(row["commodities"]), 4),
+                "commodities_ma": round(float(row["commodities_ma"]), 4),
             })
 
     return history
