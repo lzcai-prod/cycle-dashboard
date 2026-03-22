@@ -28,7 +28,7 @@ export function MacroIndicatorsPanel({ indicators, series }: { indicators: any, 
           let suffix = "";
           if (key === "m2_money") {
             displayValue = "$" + item.value.toLocaleString() + "B";
-            suffix = \ (\\% YoY)\;
+            suffix = ` (${item.yoy_pct > 0 ? '+' : ''}${item.yoy_pct}% YoY)`;
           } else if (key === "jobless_claims") {
             displayValue = item.value.toLocaleString();
           } else {
@@ -61,7 +61,7 @@ export function MacroIndicatorsPanel({ indicators, series }: { indicators: any, 
                 </div>
 
                 <div className="mb-2">
-                  <span className={\inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium \\}>
+                  <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${badgeClass}`}>
                     {item.signal}
                   </span>
                 </div>
@@ -76,7 +76,7 @@ export function MacroIndicatorsPanel({ indicators, series }: { indicators: any, 
                   <ResponsiveContainer>
                     <AreaChart data={seriesData} margin={{ top: 2, right: 2, bottom: 0, left: 2 }}>
                       <defs>
-                        <linearGradient id={\grad-\\} x1="0" y1="0" x2="0" y2="1">
+                        <linearGradient id={`grad-${key}`} x1="0" y1="0" x2="0" y2="1">
                           <stop offset="0%" stopColor={color} stopOpacity={0.3} />
                           <stop offset="100%" stopColor={color} stopOpacity={0.05} />
                         </linearGradient>
@@ -85,7 +85,7 @@ export function MacroIndicatorsPanel({ indicators, series }: { indicators: any, 
                         dataKey="date"
                         tickFormatter={(d: string) => {
                           const parts = d.split("-");
-                          return \\/\\;
+                          return `${parts[1]}/${parts[0].slice(2)}`;
                         }}
                         minTickGap={40}
                         tick={{ fontSize: 9, fill: "#71717a" }}
@@ -107,7 +107,7 @@ export function MacroIndicatorsPanel({ indicators, series }: { indicators: any, 
                         type="monotone"
                         dataKey="value"
                         stroke={color}
-                        fill={\url(#grad-\)\}
+                        fill={`url(#grad-${key})`}
                         strokeWidth={1.5}
                         isAnimationActive={false}
                       />
