@@ -27,13 +27,16 @@ export default function BarometerCard({ barometer, series, label }: Props) {
   // Prepare chart data (last 2 years for visibility)
   let chartData: { date: string; value: number; ma: number | null }[] = [];
   if (series) {
-    const recent = series.data.slice(-500);
-    const maData = computeMA(recent, 200);
-    chartData = recent.map((point, i) => ({
+    // Fetch extra data for MA warm-up, then trim to ~500 visible points
+    const extended = series.data.slice(-700);
+    const maData = computeMA(extended, 200);
+    const fullData = extended.map((point, i) => ({
       date: point[0],
       value: point[1],
       ma: maData[i]?.[1] ?? null,
     }));
+    // Trim to last 500 points (MA will be populated from the start)
+    chartData = fullData.slice(-500);
   }
 
   return (
