@@ -1,9 +1,11 @@
 """
-Cycle Dashboard — Data Pipeline (Step 1)
+Cycle Dashboard — Data Pipeline (Step 1 v2)
 
-Fetches market data from FRED API + Yahoo Finance, computes Pring's 3 barometers
-(bonds, equities, commodities), determines the current business cycle stage,
-and outputs a fully transparent JSON with every calculation step visible.
+Fetches raw market data from FRED API + Yahoo Finance, computes Pring's barometers
+and cycle stage, then outputs:
+  - data/series/*.json   — raw time series for charts and verification
+  - data/indicators.json — pre-computed signals, stage, thresholds
+  - data/history.json    — stage change log over time
 
 NO HARDCODED SIGNALS. Every signal is derived from raw data.
 
@@ -27,567 +29,476 @@ import pandas as pd
 # Configuration
 # ---------------------------------------------------------------------------
 
-# Moving average period for barometers (Pring uses ~10-month / 200-day)
 MA_PERIOD_DAYS = 200
 MA_PERIOD_LABEL = "200-day (~10 month)"
 
-# FRED series IDs
 FRED_SERIES = {
-    "treasury_10y":   "DGS10",       # 10-Year Treasury Constant Maturity Rate
-    "yield_curve":    "T10Y2Y",      # 10Y minus 2Y Treasury spread
-    "credit_spread":  "BAMLH0A0HYM2",# ICE BofA US High Yield OAS
-    "vix":            "VIXCLS",      # CBOE VIX
-    "sahm_rule":      "SAHMREALTIME",# Sahm Rule Recession Indicator
-    "oil_wti":        "DCOILWTICO",  # WTI Crude Oil Price
+    "treasury_10y":  {"id": "DGS10",         "name": "10-Year Treasury Yield",       "unit": "percent",    "frequency": "daily"},
+    "yield_curve":   {"id": "T10Y2Y",        "name": "Yield Curve (10Y - 2Y)",       "unit": "percent",    "frequency": "daily"},
+    "credit_spread": {"id": "BAMLH0A0HYM2",  "name": "HY Credit Spread (OAS)",       "unit": "percent",    "frequency": "daily"},
+    "vix":           {"id": "VIXCLS",         "name": "VIX (Implied Volatility)",     "unit": "index",      "frequency": "daily"},
+    "sahm_rule":     {"id": "SAHMREALTIME",   "name": "Sahm Rule Recession Indicator","unit": "percentage_points", "frequency": "monthly"},
+    "oil_wti":       {"id": "DCOILWTICO",     "name": "WTI Crude Oil Price",          "unit": "usd_per_barrel",    "frequency": "daily"},
 }
 
-# Yahoo Finance tickers
-YAHOO_TICKERS = {
-    "sp500":     "^GSPC",   # S&P 500 Index
-    "commodity": "DJP",     # iPath Bloomberg Commodity ETN (proxy)
+YAHOO_SERIES = {
+    "sp500":         {"ticker": "^GSPC", "name": "S&P 500",                   "unit": "index_points", "frequency": "daily"},
+    "commodity_djp": {"ticker": "DJP",   "name": "Bloomberg Commodity ETN",   "unit": "usd",          "frequency": "daily"},
 }
 
-# FRED series URLs for citation
 FRED_BASE_URL = "https://fred.stlouisfed.org/series/"
 
 # Pring's 6-stage mapping: (bonds_signal, equities_signal, commodities_signal) -> stage
-# bonds_signal: "rising" means bond PRICES rising (yields falling)
-# "falling" means bond PRICES falling (yields rising)
 STAGE_MAP = {
     ("rising",  "falling", "falling"): (1, "Late Recession"),
     ("rising",  "rising",  "falling"): (2, "Early Recovery"),
-    ("rising",  "rising",  "rising"):  (2.5, "Recovery/Expansion Transition"),  # all rising — between 2 and 3
+    ("rising",  "rising",  "rising"):  (2, "Early Recovery"),          # all rising — late stage 2
     ("falling", "rising",  "rising"):  (3, "Mid Expansion"),
-    ("falling", "rising",  "falling"): (4, "Late Expansion"),      # commodities rolling over
+    ("falling", "rising",  "falling"): (4, "Late Expansion"),
     ("falling", "falling", "rising"):  (5, "Early Downturn"),
     ("falling", "falling", "falling"): (6, "Full Recession"),
-    ("rising",  "falling", "rising"):  (5.5, "Mixed — Recession with Commodity Inflation"),  # stagflation-like
+    ("rising",  "falling", "rising"):  (5, "Early Downturn"),          # stagflation variant
 }
 
+
 # ---------------------------------------------------------------------------
-# Data fetching
+# Data Fetching
 # ---------------------------------------------------------------------------
 
-def fetch_fred_series(fred, series_id: str, lookback_days: int = 500) -> pd.Series:
-    """Fetch a FRED series. Returns a pandas Series indexed by date."""
+def fetch_fred(fred, series_id: str, lookback_days: int = 800) -> pd.Series:
+    """Fetch a FRED series. Returns pandas Series indexed by date."""
     start = datetime.now() - timedelta(days=lookback_days)
     try:
         data = fred.get_series(series_id, observation_start=start)
         data = data.dropna()
         if data.empty:
-            raise ValueError(f"FRED series {series_id} returned no data")
+            raise ValueError(f"FRED/{series_id} returned empty")
         return data
     except Exception as e:
-        print(f"  ⚠ Failed to fetch FRED/{series_id}: {e}", file=sys.stderr)
+        print(f"  WARNING: FRED/{series_id} failed: {e}", file=sys.stderr)
         return pd.Series(dtype=float)
 
 
-def fetch_yahoo_series(ticker: str, lookback_days: int = 500) -> pd.Series:
-    """Fetch closing prices from Yahoo Finance. Returns a pandas Series."""
+def fetch_yahoo(ticker: str, lookback_days: int = 800) -> pd.Series:
+    """Fetch closing prices from Yahoo Finance."""
     import yfinance as yf
     start = datetime.now() - timedelta(days=lookback_days)
     try:
         df = yf.download(ticker, start=start.strftime("%Y-%m-%d"), progress=False, auto_adjust=True)
         if df.empty:
-            raise ValueError(f"Yahoo/{ticker} returned no data")
-        # yfinance may return MultiIndex columns; flatten
+            raise ValueError(f"Yahoo/{ticker} returned empty")
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
         series = df["Close"].dropna()
-        series.index = series.index.tz_localize(None)  # remove timezone
+        series.index = series.index.tz_localize(None)
         return series
     except Exception as e:
-        print(f"  ⚠ Failed to fetch Yahoo/{ticker}: {e}", file=sys.stderr)
+        print(f"  WARNING: Yahoo/{ticker} failed: {e}", file=sys.stderr)
         return pd.Series(dtype=float)
 
 
 # ---------------------------------------------------------------------------
-# Signal computation (fully transparent)
+# Series output
+# ---------------------------------------------------------------------------
+
+def series_to_json(series: pd.Series, meta: dict, source_url: str) -> dict:
+    """Convert a pandas Series to a clean JSON-serializable dict for data/series/."""
+    data_points = [
+        [d.strftime("%Y-%m-%d"), round(float(v), 4)]
+        for d, v in series.items()
+    ]
+    return {
+        "name": meta["name"],
+        "unit": meta["unit"],
+        "frequency": meta["frequency"],
+        "source": source_url,
+        "updated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "count": len(data_points),
+        "data": data_points,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Signal Computation
 # ---------------------------------------------------------------------------
 
 def compute_barometer(series: pd.Series, name: str, invert: bool = False,
                       invert_reason: str = "") -> dict:
     """
-    Compute a barometer signal from a price/yield series.
-
-    Args:
-        series: Time series of values (prices or yields)
-        name: Human-readable name
-        invert: If True, the signal is inverted (e.g., rising yields = falling bonds)
-        invert_reason: Explanation of why inversion applies
-
-    Returns:
-        Dict with full calculation chain
+    Compute a barometer signal from a time series.
+    Returns dict with transparent calculation chain.
     """
     if series.empty:
-        return {
-            "name": name,
-            "status": "error",
-            "error": "No data available",
-            "signal": "unknown",
-        }
+        return {"name": name, "status": "error", "error": "No data", "signal": "unknown"}
 
-    current_value = float(series.iloc[-1])
+    current = float(series.iloc[-1])
     current_date = series.index[-1].strftime("%Y-%m-%d")
 
-    # Compute moving average
     ma = series.rolling(window=MA_PERIOD_DAYS, min_periods=int(MA_PERIOD_DAYS * 0.8)).mean()
     ma_clean = ma.dropna()
-
     if ma_clean.empty:
-        return {
-            "name": name,
-            "status": "error",
-            "error": f"Not enough data to compute {MA_PERIOD_LABEL} moving average",
-            "signal": "unknown",
-        }
+        return {"name": name, "status": "error", "error": "Insufficient data for MA", "signal": "unknown"}
 
-    ma_value = float(ma_clean.iloc[-1])
-    ma_start_date = series.index[max(0, len(series) - MA_PERIOD_DAYS)].strftime("%Y-%m-%d")
-    ma_end_date = current_date
+    ma_val = float(ma_clean.iloc[-1])
+    is_above = current > ma_val
+    pct_diff = ((current - ma_val) / ma_val) * 100
 
-    # Raw comparison
-    is_above_ma = current_value > ma_value
-    pct_diff = ((current_value - ma_value) / ma_value) * 100
-
-    # Determine raw directional signal
-    raw_signal = "above_ma" if is_above_ma else "below_ma"
-
-    # Apply inversion if needed (e.g., yields → bond prices)
     if invert:
-        # Above MA in yields = falling bond prices = bonds DOWN
-        final_signal = "falling" if is_above_ma else "rising"
-        signal_logic = (
-            f"Current value ({current_value:.4f}) is {'above' if is_above_ma else 'below'} "
-            f"the {MA_PERIOD_LABEL} MA ({ma_value:.4f}). "
-            f"{invert_reason} "
-            f"Therefore signal = '{final_signal}'."
-        )
+        signal = "falling" if is_above else "rising"
     else:
-        # Above MA in prices = asset rising = UP
-        final_signal = "rising" if is_above_ma else "falling"
-        signal_logic = (
-            f"Current value ({current_value:.2f}) is {'above' if is_above_ma else 'below'} "
-            f"the {MA_PERIOD_LABEL} MA ({ma_value:.2f}). "
-            f"Price above MA → signal = '{final_signal}'."
-        )
+        signal = "rising" if is_above else "falling"
 
-    # Recent trend (last 20 days slope)
-    recent = series.tail(20)
-    if len(recent) >= 2:
-        slope = (float(recent.iloc[-1]) - float(recent.iloc[0])) / len(recent)
-        recent_trend = "rising" if slope > 0 else "falling"
-    else:
-        slope = 0
-        recent_trend = "unknown"
+    # Detect when signal last changed (scan backwards)
+    signal_changed = None
+    for i in range(len(series) - 2, max(len(series) - MA_PERIOD_DAYS, 0), -1):
+        if i < len(ma) and not pd.isna(ma.iloc[i]):
+            prev_above = float(series.iloc[i]) > float(ma.iloc[i])
+            if prev_above != is_above:
+                signal_changed = series.index[i + 1].strftime("%Y-%m-%d")
+                break
 
     return {
         "name": name,
         "status": "ok",
-        "calculation_steps": {
-            "raw_value": round(current_value, 4),
-            "raw_value_date": current_date,
-            "ma_value": round(ma_value, 4),
-            "ma_period": MA_PERIOD_LABEL,
-            "ma_window_start": ma_start_date,
-            "ma_window_end": ma_end_date,
-            "data_points_in_window": len(series.tail(MA_PERIOD_DAYS)),
-            "comparison": raw_signal,
-            "pct_diff_from_ma": round(pct_diff, 2),
-            "inversion_applied": invert,
-            "inversion_reason": invert_reason if invert else "N/A — direct price comparison",
-            "signal_logic": signal_logic,
-            "recent_20d_trend": recent_trend,
-            "recent_20d_slope": round(slope, 6),
-        },
-        "signal": final_signal,
-        "series_last_30": [
-            {"date": d.strftime("%Y-%m-%d"), "value": round(float(v), 4)}
-            for d, v in series.tail(30).items()
-        ],
+        "current": round(current, 4),
+        "current_date": current_date,
+        "ma_200d": round(ma_val, 4),
+        "pct_from_ma": round(pct_diff, 2),
+        "above_ma": is_above,
+        "inversion": invert,
+        "inversion_reason": invert_reason if invert else None,
+        "signal": signal,
+        "signal_changed_date": signal_changed,
     }
 
 
-def compute_supporting_indicator(series: pd.Series, name: str, source_id: str,
-                                  thresholds: dict = None) -> dict:
-    """
-    Compute a supporting indicator with transparent value reporting.
+def compute_thresholds(indicators_raw: dict) -> dict:
+    """Compute threshold alerts from raw indicator data."""
+    alerts = {}
 
-    Args:
-        series: Time series
-        name: Human-readable name
-        source_id: FRED series ID or Yahoo ticker
-        thresholds: Dict of named thresholds for context, e.g. {"recession": 0.5}
-    """
-    if series.empty:
-        return {
-            "name": name,
-            "status": "error",
-            "error": "No data available",
-            "source": f"{FRED_BASE_URL}{source_id}",
+    # Yield curve inversion
+    yc = indicators_raw.get("yield_curve")
+    if yc is not None and not yc.empty:
+        val = float(yc.iloc[-1])
+        alerts["yield_curve_inversion"] = {
+            "name": "Yield Curve Inversion (10Y - 2Y < 0)",
+            "value": round(val, 4),
+            "threshold": 0,
+            "triggered": val < 0,
+            "interpretation": "inverted — recession warning" if val < 0 else "normal — positive slope",
+            "source": f"{FRED_BASE_URL}T10Y2Y",
         }
 
-    current_value = float(series.iloc[-1])
-    current_date = series.index[-1].strftime("%Y-%m-%d")
-
-    # Staleness check
-    days_old = (datetime.now() - series.index[-1].to_pydatetime().replace(tzinfo=None)).days
-    freshness = "fresh" if days_old <= 7 else ("stale" if days_old <= 30 else "very_stale")
-
-    result = {
-        "name": name,
-        "status": "ok",
-        "value": round(current_value, 4),
-        "date": current_date,
-        "days_since_update": days_old,
-        "freshness": freshness,
-        "source": f"{FRED_BASE_URL}{source_id}",
-    }
-
-    # Add threshold context if provided
-    if thresholds:
-        threshold_checks = {}
-        for label, threshold_val in thresholds.items():
-            threshold_checks[label] = {
-                "threshold": threshold_val,
-                "current_value": round(current_value, 4),
-                "triggered": current_value >= threshold_val if "above" in label or "warning" in label or "recession" in label
-                             else current_value <= threshold_val,
-                "distance": round(current_value - threshold_val, 4),
-            }
-        result["threshold_checks"] = threshold_checks
-
-    # Historical context
-    if len(series) >= 60:
-        result["historical_context"] = {
-            "current": round(current_value, 4),
-            "avg_1y": round(float(series.tail(252).mean()), 4) if len(series) >= 252 else None,
-            "min_1y": round(float(series.tail(252).min()), 4) if len(series) >= 252 else None,
-            "max_1y": round(float(series.tail(252).max()), 4) if len(series) >= 252 else None,
-            "percentile_1y": round(float(
-                (series.tail(252) <= current_value).mean() * 100
-            ), 1) if len(series) >= 252 else None,
+    # Credit spread stress
+    cs = indicators_raw.get("credit_spread")
+    if cs is not None and not cs.empty:
+        val = float(cs.iloc[-1])
+        # Compute widening from 12-month low
+        low_1y = float(cs.tail(252).min()) if len(cs) >= 252 else float(cs.min())
+        widening = val - low_1y
+        alerts["credit_spread"] = {
+            "name": "HY Credit Spread (OAS)",
+            "value": round(val, 4),
+            "one_year_low": round(low_1y, 4),
+            "widening_from_low": round(widening, 4),
+            "warning_threshold": 3.0,
+            "warning_widening_threshold": 3.0,
+            "level_triggered": val >= 5.0,
+            "widening_triggered": widening >= 3.0,
+            "interpretation": (
+                "STRESS — spread above 500bps" if val >= 5.0
+                else "WARNING — widened 300bps+ from low" if widening >= 3.0
+                else "normal"
+            ),
+            "source": f"{FRED_BASE_URL}BAMLH0A0HYM2",
         }
 
-    result["series_last_10"] = [
-        {"date": d.strftime("%Y-%m-%d"), "value": round(float(v), 4)}
-        for d, v in series.tail(10).items()
-    ]
+    # VIX
+    vx = indicators_raw.get("vix")
+    if vx is not None and not vx.empty:
+        val = float(vx.iloc[-1])
+        alerts["vix"] = {
+            "name": "VIX (Implied Volatility)",
+            "value": round(val, 2),
+            "thresholds": {"elevated": 25, "high_fear": 30, "panic": 40},
+            "triggered_level": (
+                "panic" if val >= 40 else "high_fear" if val >= 30
+                else "elevated" if val >= 25 else "normal"
+            ),
+            "source": f"{FRED_BASE_URL}VIXCLS",
+        }
 
-    return result
+    # Sahm Rule
+    sr = indicators_raw.get("sahm_rule")
+    if sr is not None and not sr.empty:
+        val = float(sr.iloc[-1])
+        alerts["sahm_rule"] = {
+            "name": "Sahm Rule Recession Indicator",
+            "value": round(val, 4),
+            "threshold": 0.5,
+            "triggered": val >= 0.5,
+            "interpretation": "RECESSION SIGNAL" if val >= 0.5 else "no recession signal",
+            "source": f"{FRED_BASE_URL}SAHMREALTIME",
+        }
+
+    # Oil — year-over-year change
+    oil = indicators_raw.get("oil_wti")
+    if oil is not None and not oil.empty and len(oil) >= 252:
+        current_oil = float(oil.iloc[-1])
+        year_ago = float(oil.iloc[-252])
+        yoy = ((current_oil - year_ago) / year_ago) * 100
+        alerts["oil_yoy"] = {
+            "name": "WTI Oil Year-over-Year Change",
+            "current_price": round(current_oil, 2),
+            "year_ago_price": round(year_ago, 2),
+            "yoy_pct": round(yoy, 2),
+            "warning_threshold_pct": 80,
+            "triggered": yoy >= 80,
+            "interpretation": (
+                "DANGER — oil doubled YoY (Hamilton recession signal)" if yoy >= 100
+                else "WARNING — rapid oil price increase" if yoy >= 80
+                else "elevated" if yoy >= 50
+                else "normal"
+            ),
+            "reference": "Hamilton (1983, 2009): rapid oil price doublings precede recessions",
+            "source": f"{FRED_BASE_URL}DCOILWTICO",
+        }
+
+    return alerts
 
 
 def determine_stage(bonds_signal: str, equities_signal: str, commodities_signal: str) -> dict:
-    """
-    Determine Pring's business cycle stage from 3 barometer signals.
-    Returns stage info with full logic explanation.
-    """
+    """Determine Pring's cycle stage from 3 barometer signals."""
     key = (bonds_signal, equities_signal, commodities_signal)
-
     if key in STAGE_MAP:
         stage_num, stage_label = STAGE_MAP[key]
-        matched = True
     else:
-        # Unknown combination
-        stage_num = None
-        stage_label = "Indeterminate"
-        matched = False
+        stage_num, stage_label = None, "Indeterminate"
 
     return {
         "stage": stage_num,
-        "stage_label": stage_label,
-        "determination_logic": {
-            "bonds_signal": bonds_signal,
-            "equities_signal": equities_signal,
-            "commodities_signal": commodities_signal,
-            "combination": f"Bonds {bonds_signal.upper()}, Equities {equities_signal.upper()}, Commodities {commodities_signal.upper()}",
-            "matched_known_stage": matched,
-            "note": (
-                "Stage determined by Pring's 6-stage business cycle model. "
-                "Each barometer (bonds, equities, commodities) is classified as RISING or FALLING "
-                f"based on whether the current value is above or below its {MA_PERIOD_LABEL} moving average. "
-                "The combination of 3 signals maps to a specific cycle stage."
-            ),
-        },
-        "stage_reference": {
-            "1": "Late Recession — Bonds ↑, Equities ↓, Commodities ↓",
-            "2": "Early Recovery — Bonds ↑, Equities ↑, Commodities ↓",
-            "3": "Mid Expansion — Bonds ↓, Equities ↑, Commodities ↑",
-            "4": "Late Expansion — Bonds ↓, Equities ↑ (topping), Commodities ↑",
-            "5": "Early Downturn — Bonds ↓, Equities ↓, Commodities ↑ (topping)",
-            "6": "Full Recession — Bonds ↓, Equities ↓, Commodities ↓",
-        },
-        "allocation_guidance": _get_allocation_guidance(stage_num),
+        "label": stage_label,
+        "bonds": bonds_signal,
+        "equities": equities_signal,
+        "commodities": commodities_signal,
     }
 
 
-def _get_allocation_guidance(stage) -> dict:
-    """Return Pring's recommended allocation tilt for a given stage."""
-    guidance = {
-        1:   {"bonds": "overweight", "equities": "underweight", "commodities": "underweight", "cash": "high",
-              "rationale": "Bonds rally as rates fall. Equities still declining. Cash is king until equity barometer turns."},
-        2:   {"bonds": "overweight", "equities": "overweight",  "commodities": "underweight", "cash": "reduce",
-              "rationale": "Both bonds and equities rising — the sweet spot. Reduce cash, deploy into risk assets."},
-        2.5: {"bonds": "neutral",    "equities": "overweight",  "commodities": "neutral",     "cash": "low",
-              "rationale": "All three rising — transitional. Bonds may be topping. Favor equities."},
-        3:   {"bonds": "underweight","equities": "overweight",  "commodities": "overweight",  "cash": "low",
-              "rationale": "Bonds falling as rates rise. Equities and commodities benefit from expansion. Minimal cash."},
-        4:   {"bonds": "underweight","equities": "neutral",     "commodities": "overweight",  "cash": "low",
-              "rationale": "Equities topping out, commodities still strong. Begin watching for equity weakness."},
-        5:   {"bonds": "underweight","equities": "underweight", "commodities": "neutral",     "cash": "raise",
-              "rationale": "Equities falling, commodities topping. Raise cash. Defensive positioning."},
-        5.5: {"bonds": "neutral",    "equities": "underweight", "commodities": "neutral",     "cash": "raise",
-              "rationale": "Mixed signals — stagflation-like. Bonds rising but equities weak. Be cautious."},
-        6:   {"bonds": "neutral",    "equities": "underweight", "commodities": "underweight", "cash": "maximum",
-              "rationale": "Everything falling. Maximum cash. Wait for bond barometer to turn up (Stage 1 signal)."},
+def get_allocation_guidance(stage) -> dict:
+    """Pring's recommended allocation tilt for each stage."""
+    table = {
+        1: {"bonds": "overweight", "equities": "underweight", "commodities": "underweight", "cash": "high",
+            "rationale": "Bonds rally as rates fall. Equities still declining. Hold cash until equity barometer turns."},
+        2: {"bonds": "overweight", "equities": "overweight",  "commodities": "underweight", "cash": "reduce",
+            "rationale": "Both bonds and equities rising — the sweet spot. Deploy cash into risk assets."},
+        3: {"bonds": "underweight","equities": "overweight",  "commodities": "overweight",  "cash": "low",
+            "rationale": "Bonds falling as rates rise. Equities and commodities benefit from expansion."},
+        4: {"bonds": "underweight","equities": "neutral",     "commodities": "overweight",  "cash": "low",
+            "rationale": "Equities topping, commodities still strong. Watch for equity weakness."},
+        5: {"bonds": "underweight","equities": "underweight", "commodities": "neutral",     "cash": "raise",
+            "rationale": "Equities falling, commodities topping. Raise cash. Defensive positioning."},
+        6: {"bonds": "neutral",   "equities": "underweight",  "commodities": "underweight", "cash": "maximum",
+            "rationale": "Everything falling. Maximum cash. Wait for bond barometer to turn up (Stage 1)."},
     }
-    return guidance.get(stage, {
-        "bonds": "unknown", "equities": "unknown", "commodities": "unknown", "cash": "unknown",
-        "rationale": "Barometer combination does not map to a standard Pring stage. Review individual signals."
-    })
+    return table.get(stage, {"bonds": "n/a", "equities": "n/a", "commodities": "n/a", "cash": "n/a",
+                              "rationale": "Cannot determine — barometer combination does not match a standard Pring stage."})
 
 
 # ---------------------------------------------------------------------------
-# Main pipeline
+# History tracking
+# ---------------------------------------------------------------------------
+
+def update_history(history_path: Path, stage_info: dict) -> list:
+    """Load history.json, append if stage changed, return updated history."""
+    history = []
+    if history_path.exists():
+        try:
+            with open(history_path, "r") as f:
+                history = json.load(f)
+        except (json.JSONDecodeError, IOError):
+            history = []
+
+    current_stage = stage_info["stage"]
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+
+    # Only append if stage changed or history is empty
+    if not history or history[-1]["stage"] != current_stage:
+        history.append({
+            "date": today,
+            "stage": current_stage,
+            "label": stage_info["label"],
+            "bonds": stage_info["bonds"],
+            "equities": stage_info["equities"],
+            "commodities": stage_info["commodities"],
+        })
+
+    return history
+
+
+# ---------------------------------------------------------------------------
+# Main
 # ---------------------------------------------------------------------------
 
 def main():
-    print("=" * 70)
-    print("CYCLE DASHBOARD — DATA PIPELINE")
-    print(f"Run time: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC")
-    print("=" * 70)
+    print("=" * 60)
+    print("CYCLE DASHBOARD — DATA PIPELINE v2")
+    print(f"Run: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC")
+    print("=" * 60)
 
-    # --- Check FRED API key ---
     fred_api_key = os.environ.get("FRED_API_KEY")
     if not fred_api_key:
-        print("\n❌ FRED_API_KEY environment variable not set.")
-        print("   Get a free key at: https://fred.stlouisfed.org/docs/api/api_key.html")
-        print("   Then run: FRED_API_KEY=your_key python scripts/fetch_data.py")
+        print("\nERROR: FRED_API_KEY not set.")
+        print("Get a free key: https://fred.stlouisfed.org/docs/api/api_key.html")
         sys.exit(1)
 
     from fredapi import Fred
     fred = Fred(api_key=fred_api_key)
 
-    errors = []
+    base_dir = Path(__file__).parent.parent
+    series_dir = base_dir / "data" / "series"
+    series_dir.mkdir(parents=True, exist_ok=True)
 
-    # --- Fetch all data ---
-    print("\n📡 Fetching data...")
+    # ---- Fetch & write raw series ----
+    print("\nFetching data...")
 
-    print("  FRED/DGS10 (10Y Treasury yield)...")
-    treasury_10y = fetch_fred_series(fred, "DGS10")
+    raw_data = {}
 
-    print("  Yahoo/^GSPC (S&P 500)...")
-    sp500 = fetch_yahoo_series("^GSPC")
+    # FRED series
+    for key, meta in FRED_SERIES.items():
+        print(f"  FRED/{meta['id']} ({meta['name']})...")
+        series = fetch_fred(fred, meta["id"])
+        raw_data[key] = series
+        if not series.empty:
+            out = series_to_json(series, meta, f"{FRED_BASE_URL}{meta['id']}")
+            with open(series_dir / f"{key}.json", "w") as f:
+                json.dump(out, f, indent=2)
+            print(f"    -> {len(series)} points, latest: {series.index[-1].strftime('%Y-%m-%d')} = {series.iloc[-1]:.4f}")
 
-    print("  Yahoo/DJP (Bloomberg Commodity ETN)...")
-    commodity = fetch_yahoo_series("DJP")
+    # Yahoo series
+    for key, meta in YAHOO_SERIES.items():
+        print(f"  Yahoo/{meta['ticker']} ({meta['name']})...")
+        series = fetch_yahoo(meta["ticker"])
+        raw_data[key] = series
+        if not series.empty:
+            source_url = f"https://finance.yahoo.com/quote/{meta['ticker'].replace('^', '%5E')}/"
+            out = series_to_json(series, meta, source_url)
+            with open(series_dir / f"{key}.json", "w") as f:
+                json.dump(out, f, indent=2)
+            print(f"    -> {len(series)} points, latest: {series.index[-1].strftime('%Y-%m-%d')} = {series.iloc[-1]:.4f}")
 
-    # Fallback: if DJP fails, try PPIACO from FRED
-    commodity_source = "Yahoo/DJP"
-    if commodity.empty:
-        print("  ⚠ DJP failed, trying FRED/PPIACO (Producer Price Index) as commodity proxy...")
-        commodity = fetch_fred_series(fred, "PPIACO")
-        commodity_source = "FRED/PPIACO"
+    # ---- Compute barometers ----
+    print("\nComputing barometers...")
 
-    print("  FRED/T10Y2Y (Yield curve spread)...")
-    yield_curve = fetch_fred_series(fred, "T10Y2Y")
-
-    print("  FRED/BAMLH0A0HYM2 (HY credit spread)...")
-    credit_spread = fetch_fred_series(fred, "BAMLH0A0HYM2")
-
-    print("  FRED/VIXCLS (VIX)...")
-    vix = fetch_fred_series(fred, "VIXCLS")
-
-    print("  FRED/SAHMREALTIME (Sahm Rule)...")
-    sahm = fetch_fred_series(fred, "SAHMREALTIME")
-
-    print("  FRED/DCOILWTICO (WTI Oil)...")
-    oil = fetch_fred_series(fred, "DCOILWTICO")
-
-    # --- Compute barometers ---
-    print("\n📊 Computing barometers...")
-
-    print("\n  [BOND BAROMETER]")
     bonds = compute_barometer(
-        treasury_10y,
-        name="Bond Barometer (via 10Y Treasury Yield)",
+        raw_data.get("treasury_10y", pd.Series(dtype=float)),
+        "Bond Barometer (10Y Treasury Yield)",
         invert=True,
-        invert_reason="Yields are INVERSE to bond prices — yield above MA means bond prices are falling (bearish for bonds).",
+        invert_reason="Yields are inverse to bond prices. Yield above MA = bond prices falling.",
     )
-    print(f"    Raw yield: {bonds.get('calculation_steps', {}).get('raw_value', 'N/A')}")
-    print(f"    MA yield:  {bonds.get('calculation_steps', {}).get('ma_value', 'N/A')}")
-    print(f"    Signal:    {bonds.get('signal', 'N/A')}")
+    print(f"  Bonds:       {bonds['signal'].upper()} (yield {bonds.get('current', '?')} vs MA {bonds.get('ma_200d', '?')})")
 
-    print("\n  [EQUITY BAROMETER]")
     equities = compute_barometer(
-        sp500,
-        name="Equity Barometer (S&P 500)",
-        invert=False,
+        raw_data.get("sp500", pd.Series(dtype=float)),
+        "Equity Barometer (S&P 500)",
     )
-    print(f"    Raw price: {equities.get('calculation_steps', {}).get('raw_value', 'N/A')}")
-    print(f"    MA price:  {equities.get('calculation_steps', {}).get('ma_value', 'N/A')}")
-    print(f"    Signal:    {equities.get('signal', 'N/A')}")
+    print(f"  Equities:    {equities['signal'].upper()} (price {equities.get('current', '?')} vs MA {equities.get('ma_200d', '?')})")
 
-    print("\n  [COMMODITY BAROMETER]")
     commodities = compute_barometer(
-        commodity,
-        name=f"Commodity Barometer ({commodity_source})",
-        invert=False,
+        raw_data.get("commodity_djp", pd.Series(dtype=float)),
+        "Commodity Barometer (DJP)",
     )
-    print(f"    Raw price: {commodities.get('calculation_steps', {}).get('raw_value', 'N/A')}")
-    print(f"    MA price:  {commodities.get('calculation_steps', {}).get('ma_value', 'N/A')}")
-    print(f"    Signal:    {commodities.get('signal', 'N/A')}")
+    print(f"  Commodities: {commodities['signal'].upper()} (price {commodities.get('current', '?')} vs MA {commodities.get('ma_200d', '?')})")
 
-    # --- Determine stage ---
-    print("\n🔄 Determining cycle stage...")
+    # ---- Determine stage ----
     stage_info = determine_stage(
         bonds.get("signal", "unknown"),
         equities.get("signal", "unknown"),
         commodities.get("signal", "unknown"),
     )
-    print(f"    Combination: {stage_info['determination_logic']['combination']}")
-    print(f"    Stage:       {stage_info['stage']} — {stage_info['stage_label']}")
+    print(f"\n  -> Stage {stage_info['stage']}: {stage_info['label']}")
 
-    # --- Compute supporting indicators ---
-    print("\n📋 Computing supporting indicators...")
+    # ---- Threshold alerts ----
+    print("\nComputing threshold alerts...")
+    alerts = compute_thresholds(raw_data)
+    for key, alert in alerts.items():
+        triggered = alert.get("triggered") or alert.get("level_triggered") or alert.get("widening_triggered")
+        flag = "TRIGGERED" if triggered else "ok"
+        val = alert.get("value", alert.get("current_price", "?"))
+        print(f"  {alert['name']}: {val} [{flag}]")
 
-    indicators = {}
+    # ---- Allocation guidance ----
+    allocation = get_allocation_guidance(stage_info["stage"])
 
-    indicators["yield_curve"] = compute_supporting_indicator(
-        yield_curve, "Yield Curve (10Y - 2Y)", "T10Y2Y",
-        thresholds={
-            "recession_warning_inversion": 0,  # negative = inverted
-        }
-    )
-
-    indicators["credit_spread"] = compute_supporting_indicator(
-        credit_spread, "HY Credit Spread (OAS)", "BAMLH0A0HYM2",
-        thresholds={
-            "warning_elevated": 5.0,   # 500bps = stress
-            "recession_crisis": 8.0,   # 800bps = crisis
-        }
-    )
-
-    indicators["vix"] = compute_supporting_indicator(
-        vix, "VIX (Implied Volatility)", "VIXCLS",
-        thresholds={
-            "warning_elevated": 25.0,
-            "warning_high_fear": 30.0,
-            "recession_panic": 40.0,
-        }
-    )
-
-    indicators["sahm_rule"] = compute_supporting_indicator(
-        sahm, "Sahm Rule Recession Indicator", "SAHMREALTIME",
-        thresholds={
-            "recession_trigger": 0.5,  # ≥ 0.5 = recession signal
-        }
-    )
-
-    indicators["oil_wti"] = compute_supporting_indicator(
-        oil, "WTI Crude Oil Price", "DCOILWTICO",
-    )
-    # Add YoY change for oil (important for recession signal)
-    if not oil.empty and len(oil) >= 252:
-        current_oil = float(oil.iloc[-1])
-        year_ago_oil = float(oil.iloc[-252]) if len(oil) >= 252 else float(oil.iloc[0])
-        oil_yoy = ((current_oil - year_ago_oil) / year_ago_oil) * 100
-        indicators["oil_wti"]["yoy_change"] = {
-            "current": round(current_oil, 2),
-            "year_ago": round(year_ago_oil, 2),
-            "yoy_pct_change": round(oil_yoy, 2),
-            "note": "Hamilton (1983, 2009): rapid oil price doublings precede recessions. YoY > 80-100% is historically dangerous.",
-        }
-
-    # ISM PMI note — not freely available on FRED as a clean series
-    indicators["ism_pmi"] = {
-        "name": "ISM Manufacturing PMI",
-        "status": "manual_input_required",
-        "note": (
-            "ISM PMI is not freely available as a downloadable FRED time series. "
-            "The official source is ismworld.org (subscription required for historical data). "
-            "FRED has related series (MANEMP for manufacturing employment, NAPM was discontinued). "
-            "For this dashboard, ISM PMI should be manually updated monthly or sourced via "
-            "Trading Economics / MacroMicro. Current ISM PMI (Feb 2026): check ismworld.org."
-        ),
-        "thresholds": {
-            "expansion_contraction": 50.0,
-            "recession_warning": 45.0,
-        },
-        "source": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/",
-    }
-
-    for key, ind in indicators.items():
-        status = ind.get("status", "?")
-        val = ind.get("value", "N/A")
-        print(f"    {ind['name']}: {val} ({status})")
-
-    # --- Assemble output ---
-    output = {
-        "_metadata": {
-            "project": "Cycle Dashboard",
-            "description": "Pring's 6-Stage Business Cycle Model with live market data",
-            "updated_utc": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "methodology": (
-                "Each barometer compares the current value to its "
-                f"{MA_PERIOD_LABEL} moving average. "
-                "Bond barometer inverts the yield signal (rising yields = falling bond prices). "
-                "The combination of 3 barometer signals determines the cycle stage per Pring's model."
-            ),
-            "ma_period_days": MA_PERIOD_DAYS,
-            "data_sources": {
-                "treasury_10y": f"{FRED_BASE_URL}DGS10",
-                "sp500": "https://finance.yahoo.com/quote/%5EGSPC/",
-                "commodity_proxy": f"{FRED_BASE_URL}PPIACO" if commodity_source == "FRED/PPIACO"
-                                   else "https://finance.yahoo.com/quote/DJP/",
-                "yield_curve": f"{FRED_BASE_URL}T10Y2Y",
-                "credit_spread": f"{FRED_BASE_URL}BAMLH0A0HYM2",
-                "vix": f"{FRED_BASE_URL}VIXCLS",
-                "sahm_rule": f"{FRED_BASE_URL}SAHMREALTIME",
-                "oil_wti": f"{FRED_BASE_URL}DCOILWTICO",
-                "ism_pmi": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/",
-            },
-            "reference": {
-                "model": "Martin Pring, 'The Investor's Guide to Active Asset Allocation' (2006)",
-                "bond_barometer_note": "Bond prices are inverse to yields. We track the 10Y yield and invert the signal.",
-            },
-        },
-        "current_stage": stage_info,
+    # ---- Write indicators.json ----
+    indicators = {
+        "computed_at": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "ma_period": {"days": MA_PERIOD_DAYS, "label": MA_PERIOD_LABEL},
         "barometers": {
             "bonds": bonds,
             "equities": equities,
             "commodities": commodities,
         },
-        "supporting_indicators": indicators,
+        "stage": stage_info,
+        "allocation": allocation,
+        "threshold_alerts": alerts,
+        "stage_reference": {
+            "1": {"label": "Late Recession",  "bonds": "rising",  "equities": "falling", "commodities": "falling"},
+            "2": {"label": "Early Recovery",   "bonds": "rising",  "equities": "rising",  "commodities": "falling"},
+            "3": {"label": "Mid Expansion",    "bonds": "falling", "equities": "rising",  "commodities": "rising"},
+            "4": {"label": "Late Expansion",   "bonds": "falling", "equities": "rising",  "commodities": "falling"},
+            "5": {"label": "Early Downturn",   "bonds": "falling", "equities": "falling", "commodities": "rising"},
+            "6": {"label": "Full Recession",   "bonds": "falling", "equities": "falling", "commodities": "falling"},
+        },
+        "data_sources": {
+            "bonds": f"{FRED_BASE_URL}DGS10",
+            "equities": "https://finance.yahoo.com/quote/%5EGSPC/",
+            "commodities": "https://finance.yahoo.com/quote/DJP/",
+            "yield_curve": f"{FRED_BASE_URL}T10Y2Y",
+            "credit_spread": f"{FRED_BASE_URL}BAMLH0A0HYM2",
+            "vix": f"{FRED_BASE_URL}VIXCLS",
+            "sahm_rule": f"{FRED_BASE_URL}SAHMREALTIME",
+            "oil": f"{FRED_BASE_URL}DCOILWTICO",
+            "ism_pmi": "https://www.ismworld.org/ (manual — not freely available on FRED)",
+        },
+        "model_reference": "Martin Pring, 'The Investor's Guide to Active Asset Allocation' (2006)",
     }
 
-    # --- Write output ---
-    out_path = Path(__file__).parent.parent / "data" / "latest.json"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
+    indicators_path = base_dir / "data" / "indicators.json"
+    with open(indicators_path, "w") as f:
+        json.dump(indicators, f, indent=2)
+    print(f"\nWrote: {indicators_path} ({indicators_path.stat().st_size:,} bytes)")
 
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
+    # ---- Update history ----
+    history_path = base_dir / "data" / "history.json"
+    history = update_history(history_path, stage_info)
+    with open(history_path, "w") as f:
+        json.dump(history, f, indent=2)
+    print(f"Wrote: {history_path} ({len(history)} entries)")
 
-    print(f"\n✅ Output written to: {out_path}")
-    print(f"   File size: {out_path.stat().st_size:,} bytes")
+    # ---- Write meta.json ----
+    meta = {
+        "project": "Cycle Dashboard",
+        "description": "Pring's 6-Stage Business Cycle Model with live market data",
+        "repository": "https://github.com/lzcai-prod/cycle-dashboard",
+        "updated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "series_files": sorted([f.name for f in series_dir.glob("*.json")]),
+    }
+    meta_path = base_dir / "data" / "meta.json"
+    with open(meta_path, "w") as f:
+        json.dump(meta, f, indent=2)
 
-    # --- Print summary ---
-    print("\n" + "=" * 70)
+    # ---- Summary ----
+    print("\n" + "=" * 60)
     print("SUMMARY")
-    print("=" * 70)
-    print(f"  Stage: {stage_info['stage']} — {stage_info['stage_label']}")
-    print(f"  Bonds:       {bonds.get('signal', '?').upper()}")
-    print(f"  Equities:    {equities.get('signal', '?').upper()}")
-    print(f"  Commodities: {commodities.get('signal', '?').upper()}")
-    alloc = stage_info.get("allocation_guidance", {})
-    if alloc:
-        print(f"\n  Allocation guidance:")
-        print(f"    Bonds:       {alloc.get('bonds', '?')}")
-        print(f"    Equities:    {alloc.get('equities', '?')}")
-        print(f"    Commodities: {alloc.get('commodities', '?')}")
-        print(f"    Cash:        {alloc.get('cash', '?')}")
-        print(f"    Rationale:   {alloc.get('rationale', '?')}")
-    print("=" * 70)
+    print("=" * 60)
+    print(f"  Stage {stage_info['stage']}: {stage_info['label']}")
+    print(f"  Bonds:       {bonds.get('signal', '?').upper():>8}  ({bonds.get('pct_from_ma', '?')}% from MA)")
+    print(f"  Equities:    {equities.get('signal', '?').upper():>8}  ({equities.get('pct_from_ma', '?')}% from MA)")
+    print(f"  Commodities: {commodities.get('signal', '?').upper():>8}  ({commodities.get('pct_from_ma', '?')}% from MA)")
+    print(f"\n  Allocation: bonds={allocation['bonds']}, equities={allocation['equities']}, "
+          f"commodities={allocation['commodities']}, cash={allocation['cash']}")
+    print(f"  Rationale: {allocation['rationale']}")
+    print("=" * 60)
 
 
 if __name__ == "__main__":

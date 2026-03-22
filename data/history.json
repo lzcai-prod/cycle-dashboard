@@ -1,0 +1,18 @@
+[
+  {
+    "date": "2026-03-22",
+    "stage": null,
+    "label": "Indeterminate",
+    "bonds": "unknown",
+    "equities": "falling",
+    "commodities": "rising"
+  },
+  {
+    "date": "2026-03-22",
+    "stage": 5,
+    "label": "Early Downturn",
+    "bonds": "falling",
+    "equities": "falling",
+    "commodities": "rising"
+  }
+]

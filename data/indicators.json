@@ -1,0 +1,164 @@
+{
+  "computed_at": "2026-03-22T00:01:15Z",
+  "ma_period": {
+    "days": 200,
+    "label": "200-day (~10 month)"
+  },
+  "barometers": {
+    "bonds": {
+      "name": "Bond Barometer (10Y Treasury Yield)",
+      "status": "ok",
+      "current": 4.25,
+      "current_date": "2026-03-19",
+      "ma_200d": 4.2005,
+      "pct_from_ma": 1.18,
+      "above_ma": true,
+      "inversion": true,
+      "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
+      "signal": "falling",
+      "signal_changed_date": "2026-03-18"
+    },
+    "equities": {
+      "name": "Equity Barometer (S&P 500)",
+      "status": "ok",
+      "current": 6506.48,
+      "current_date": "2026-03-20",
+      "ma_200d": 6621.7338,
+      "pct_from_ma": -1.74,
+      "above_ma": false,
+      "inversion": false,
+      "inversion_reason": null,
+      "signal": "falling",
+      "signal_changed_date": "2026-03-19"
+    },
+    "commodities": {
+      "name": "Commodity Barometer (DJP)",
+      "status": "ok",
+      "current": 47.34,
+      "current_date": "2026-03-20",
+      "ma_200d": 37.3602,
+      "pct_from_ma": 26.71,
+      "above_ma": true,
+      "inversion": false,
+      "inversion_reason": null,
+      "signal": "rising",
+      "signal_changed_date": "2025-08-21"
+    }
+  },
+  "stage": {
+    "stage": 5,
+    "label": "Early Downturn",
+    "bonds": "falling",
+    "equities": "falling",
+    "commodities": "rising"
+  },
+  "allocation": {
+    "bonds": "underweight",
+    "equities": "underweight",
+    "commodities": "neutral",
+    "cash": "raise",
+    "rationale": "Equities falling, commodities topping. Raise cash. Defensive positioning."
+  },
+  "threshold_alerts": {
+    "yield_curve_inversion": {
+      "name": "Yield Curve Inversion (10Y - 2Y < 0)",
+      "value": 0.51,
+      "threshold": 0,
+      "triggered": false,
+      "interpretation": "normal \u2014 positive slope",
+      "source": "https://fred.stlouisfed.org/series/T10Y2Y"
+    },
+    "credit_spread": {
+      "name": "HY Credit Spread (OAS)",
+      "value": 3.27,
+      "one_year_low": 2.64,
+      "widening_from_low": 0.63,
+      "warning_threshold": 3.0,
+      "warning_widening_threshold": 3.0,
+      "level_triggered": false,
+      "widening_triggered": false,
+      "interpretation": "normal",
+      "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2"
+    },
+    "vix": {
+      "name": "VIX (Implied Volatility)",
+      "value": 24.06,
+      "thresholds": {
+        "elevated": 25,
+        "high_fear": 30,
+        "panic": 40
+      },
+      "triggered_level": "normal",
+      "source": "https://fred.stlouisfed.org/series/VIXCLS"
+    },
+    "sahm_rule": {
+      "name": "Sahm Rule Recession Indicator",
+      "value": 0.27,
+      "threshold": 0.5,
+      "triggered": false,
+      "interpretation": "no recession signal",
+      "source": "https://fred.stlouisfed.org/series/SAHMREALTIME"
+    },
+    "oil_yoy": {
+      "name": "WTI Oil Year-over-Year Change",
+      "current_price": 93.39,
+      "year_ago_price": 67.65,
+      "yoy_pct": 38.05,
+      "warning_threshold_pct": 80,
+      "triggered": false,
+      "interpretation": "normal",
+      "reference": "Hamilton (1983, 2009): rapid oil price doublings precede recessions",
+      "source": "https://fred.stlouisfed.org/series/DCOILWTICO"
+    }
+  },
+  "stage_reference": {
+    "1": {
+      "label": "Late Recession",
+      "bonds": "rising",
+      "equities": "falling",
+      "commodities": "falling"
+    },
+    "2": {
+      "label": "Early Recovery",
+      "bonds": "rising",
+      "equities": "rising",
+      "commodities": "falling"
+    },
+    "3": {
+      "label": "Mid Expansion",
+      "bonds": "falling",
+      "equities": "rising",
+      "commodities": "rising"
+    },
+    "4": {
+      "label": "Late Expansion",
+      "bonds": "falling",
+      "equities": "rising",
+      "commodities": "falling"
+    },
+    "5": {
+      "label": "Early Downturn",
+      "bonds": "falling",
+      "equities": "falling",
+      "commodities": "rising"
+    },
+    "6": {
+      "label": "Full Recession",
+      "bonds": "falling",
+      "equities": "falling",
+      "commodities": "falling"
+    }
+  },
+  "data_sources": {
+    "bonds": "https://fred.stlouisfed.org/series/DGS10",
+    "equities": "https://finance.yahoo.com/quote/%5EGSPC/",
+    "commodities": "https://finance.yahoo.com/quote/DJP/",
+    "yield_curve": "https://fred.stlouisfed.org/series/T10Y2Y",
+    "credit_spread": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
+    "vix": "https://fred.stlouisfed.org/series/VIXCLS",
+    "sahm_rule": "https://fred.stlouisfed.org/series/SAHMREALTIME",
+    "oil": "https://fred.stlouisfed.org/series/DCOILWTICO",
+    "ism_pmi": "https://www.ismworld.org/ (manual \u2014 not freely available on FRED)"
+  },
+  "model_reference": "Martin Pring, 'The Investor's Guide to Active Asset Allocation' (2006)"
+}
