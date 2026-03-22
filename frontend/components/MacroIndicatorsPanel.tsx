@@ -40,7 +40,12 @@ export function MacroIndicatorsPanel({ indicators, series }: { indicators: any, 
           const badgeClass = isNegative ? "bg-red-500/10 text-red-400" : "bg-emerald-500/10 text-emerald-400";
           const color = isNegative ? "#ef4444" : "#10b981";
 
-          const seriesData = series && series[key] ? series[key].data.slice(-500).map((d: any) => ({ date: d[0], value: d[1] })) : [];
+          // Ensure all charts show exactly the same 2-year time range
+          const cutoffDate = new Date();
+          cutoffDate.setFullYear(cutoffDate.getFullYear() - 2);
+          const cutoffStr = cutoffDate.toISOString().split('T')[0];
+
+          const seriesData = series && series[key] ? series[key].data.filter((d: any) => d[0] >= cutoffStr).map((d: any) => ({ date: d[0], value: d[1] })) : [];
 
           return (
             <a
