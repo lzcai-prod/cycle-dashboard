@@ -42,18 +42,30 @@ const REFERENCE_LINES: Record<string, { value: number; label: string; color: str
   sahm_rule: [
     { value: 0.5, label: "Recession Trigger", color: "#ef4444" },
   ],
-  oil_yoy: [], // no fixed threshold line — oil uses YoY change
+  oil_yoy: [],
+};
+
+// Interpretation descriptions for each alert
+const INTERPRETATIONS: Record<string, string> = {
+  yield_curve_inversion: "When the 10Y-2Y spread goes negative, it has preceded every US recession since the 1970s.",
+  credit_spread: "Measures corporate bond risk premium. Widening above 500bps signals financial stress.",
+  vix: "Market fear gauge. Sustained readings above 25 indicate elevated uncertainty.",
+  sahm_rule: "Triggers at 0.50 when unemployment rises sharply. Has a perfect recession track record.",
+  oil_yoy: "Rapid oil price doublings have preceded most post-war recessions (Hamilton, 1983).",
 };
 
 function isTriggered(alert: ThresholdAlert): boolean {
   return !!(alert.triggered || alert.level_triggered || alert.widening_triggered);
 }
 
-function getAlertColor(alert: ThresholdAlert): string {
-  if (isTriggered(alert)) return "var(--accent-red)";
+function getSignalInfo(alert: ThresholdAlert): { label: string; isNegative: boolean } {
+  const triggered = isTriggered(alert);
   const interp = (alert.interpretation || "").toLowerCase();
-  if (interp.includes("elevated") || interp.includes("warning")) return "var(--accent-yellow)";
-  return "var(--accent-green)";
+  const isNeg = triggered || interp.includes("elevated") || interp.includes("warning");
+  return {
+    label: alert.interpretation || (triggered ? "TRIGGERED" : "normal"),
+    isNegative: isNeg,
+  };
 }
 
 interface MiniChartProps {
@@ -63,9 +75,13 @@ interface MiniChartProps {
 }
 
 function MiniChart({ seriesData, alertKey, color }: MiniChartProps) {
-  // Use last 2 years of data for mini charts
-  const recent = seriesData.data.slice(-500);
-  const chartData = recent.map(([date, value]) => ({ date, value }));
+  const cutoffDate = new Date();
+  cutoffDate.setFullYear(cutoffDate.getFullYear() - 2);
+  const cutoffStr = cutoffDate.toISOString().split("T")[0];
+
+  const chartData = seriesData.data
+    .filter((d) => d[0] >= cutoffStr)
+    .map(([date, value]) => ({ date, value }));
   const refLines = REFERENCE_LINES[alertKey] || [];
 
   return (
@@ -140,16 +156,19 @@ export default function AlertsPanel({ alerts, series }: Props) {
   const entries = Object.entries(alerts);
 
   return (
-    <div className="rounded-xl p-5 mb-6" style={{ background: "var(--bg-card)" }}>
-      <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>
-        Supporting Indicators & Thresholds
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 mb-6">
+      <h2 className="text-xl font-medium text-white mb-4">
+        Supporting Indicators &amp; Thresholds
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {entries.map(([key, alert]) => {
-          const color = getAlertColor(alert);
+          const { label, isNegative } = getSignalInfo(alert);
+          const color = isNegative ? "#ef4444" : "#10b981";
+          const badgeClass = isNegative ? "bg-red-500/10 text-red-400" : "bg-emerald-500/10 text-emerald-400";
           const val = alert.value ?? alert.current_price ?? "N/A";
           const seriesKey = ALERT_SERIES_MAP[key];
           const seriesData = seriesKey ? series[seriesKey] : undefined;
+          const description = INTERPRETATIONS[key] || "";
 
           return (
             <a
@@ -157,22 +176,30 @@ export default function AlertsPanel({ alerts, series }: Props) {
               href={alert.source}
               target="_blank"
               rel="noopener noreferrer"
-              className="block rounded-lg p-3 hover:bg-zinc-800 transition-colors"
-              style={{ background: "var(--bg-primary)", borderLeft: `3px solid ${color}` }}
+              className="block p-4 rounded-lg bg-zinc-800/50 border border-zinc-700/50 hover:bg-zinc-800 transition-colors"
             >
-              <div className="flex items-center justify-between">
-                <div className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
-                  {alert.name}
-                </div>
-                <div className="text-xs px-2 py-0.5 rounded" style={{ background: `${color}20`, color }}>
-                  {isTriggered(alert) ? "TRIGGERED" : (alert.interpretation || "normal")}
-                </div>
-              </div>
-              <div className="text-xl font-mono font-bold mt-1" style={{ color }}>
-                {typeof val === "number" ? val.toFixed(2) : val}
+              <div className="text-xs text-zinc-400 mb-1 font-medium">
+                {alert.name}
               </div>
 
-              {/* Mini chart */}
+              <div className="flex items-end gap-2 mb-2">
+                <span className="text-2xl font-semibold text-zinc-100">
+                  {typeof val === "number" ? val.toFixed(2) : val}
+                </span>
+              </div>
+
+              <div className="mb-2">
+                <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${badgeClass}`}>
+                  {label}
+                </span>
+              </div>
+
+              {description && (
+                <p className="text-xs text-zinc-500 leading-snug mb-1">
+                  {description}
+                </p>
+              )}
+
               {seriesData && (
                 <MiniChart seriesData={seriesData} alertKey={key} color={color} />
               )}
