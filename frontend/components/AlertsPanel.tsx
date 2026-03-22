@@ -176,7 +176,7 @@ export default function AlertsPanel({ alerts, series }: Props) {
               href={alert.source}
               target="_blank"
               rel="noopener noreferrer"
-              className="block p-4 rounded-lg bg-zinc-800/50 border border-zinc-700/50 hover:bg-zinc-800 transition-colors"
+              className="block p-4 rounded-lg bg-zinc-800/50 border border-zinc-700/50 hover:bg-zinc-800 transition-colors group"
             >
               <div className="text-xs text-zinc-400 mb-1 font-medium">
                 {alert.name}
@@ -188,9 +188,12 @@ export default function AlertsPanel({ alerts, series }: Props) {
                 </span>
               </div>
 
-              <div className="mb-2">
+              <div className="mb-2 flex items-center justify-between">
                 <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${badgeClass}`}>
                   {label}
+                </span>
+                <span className="text-[10px] text-zinc-500 group-hover:text-blue-400 transition-colors">
+                  View source data →
                 </span>
               </div>
 

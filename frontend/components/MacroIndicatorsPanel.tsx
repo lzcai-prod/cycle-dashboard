@@ -53,7 +53,7 @@ export function MacroIndicatorsPanel({ indicators, series }: { indicators: any, 
               href={item.source}
               target="_blank"
               rel="noopener noreferrer"
-              className="block p-4 rounded-lg bg-zinc-800/50 border border-zinc-700/50 hover:bg-zinc-800 transition-colors flex flex-col justify-between"
+              className="block p-4 rounded-lg bg-zinc-800/50 border border-zinc-700/50 hover:bg-zinc-800 transition-colors flex flex-col justify-between group"
             >
               <div>
                 <div className="text-xs text-zinc-400 mb-1 font-medium">{item.name}</div>
@@ -65,9 +65,12 @@ export function MacroIndicatorsPanel({ indicators, series }: { indicators: any, 
                   {suffix && <span className="text-sm font-medium text-zinc-400 mb-1">{suffix}</span>}
                 </div>
 
-                <div className="mb-2">
+                <div className="mb-2 flex items-center justify-between">
                   <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${badgeClass}`}>
                     {item.signal}
+                  </span>
+                  <span className="text-[10px] text-zinc-500 group-hover:text-blue-400 transition-colors">
+                    View source data →
                   </span>
                 </div>
 
