@@ -35,20 +35,21 @@ jobs:
 
       - name: Validate output exists
         run: |
-          if [ ! -f data/latest.json ]; then
-            echo "❌ data/latest.json was not created"
+          if [ ! -f data/indicators.json ]; then
+            echo "❌ data/indicators.json was not created"
             exit 1
           fi
-          echo "✅ data/latest.json exists ($(wc -c < data/latest.json) bytes)"
-          # Basic JSON validity check
-          python -c "import json; json.load(open('data/latest.json'))"
-          echo "✅ JSON is valid"
+          echo "✅ data/indicators.json exists ($(wc -c < data/indicators.json) bytes)"
+          python -c "import json; json.load(open('data/indicators.json'))"
+          echo "✅ indicators.json is valid"
+          ls -la data/series/
+          echo "✅ Series files present"
 
       - name: Commit and push updated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/latest.json
+          git add data/
           # Only commit if there are changes
           if git diff --cached --quiet; then
             echo "No data changes to commit"
