@@ -17,6 +17,11 @@ export async function fetchHistory(): Promise<HistoryEntry[]> {
   return res.json();
 }
 
+export async function fetchHistoricalStages(): Promise<any[]> {
+  const res = await fetch(`${BASE}/data/historical_stages.json`);
+  return res.json();
+}
+
 export async function fetchAllSeries(): Promise<Record<string, SeriesFile>> {
   const names = [
     "treasury_10y", "sp500", "commodity_djp",

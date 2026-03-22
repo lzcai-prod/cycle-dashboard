@@ -386,6 +386,59 @@ def get_allocation_guidance(stage) -> dict:
                               "rationale": "Cannot determine — barometer combination does not match a standard Pring stage."})
 
 
+def compute_historical_stages(raw_data: dict) -> list:
+    """
+    Backtest the stage logic since 2007 by calculating historical 200d MAs
+    for Bonds, Equities, and Commodities. Outputs a weekly time series.
+    """
+    bonds = raw_data.get("treasury_10y")
+    equities = raw_data.get("sp500")
+    commodities = raw_data.get("commodity_djp")
+
+    if bonds is None or equities is None or commodities is None:
+        return []
+
+    # Combine into a single dataframe, forward-fill missing days
+    df = pd.DataFrame({
+        "bonds": bonds,
+        "equities": equities,
+        "commodities": commodities
+    }).ffill().dropna()
+
+    # Calculate moving averages
+    df["bonds_ma"] = df["bonds"].rolling(window=MA_PERIOD_DAYS, min_periods=int(MA_PERIOD_DAYS * 0.8)).mean()
+    df["equities_ma"] = df["equities"].rolling(window=MA_PERIOD_DAYS, min_periods=int(MA_PERIOD_DAYS * 0.8)).mean()
+    df["commodities_ma"] = df["commodities"].rolling(window=MA_PERIOD_DAYS, min_periods=int(MA_PERIOD_DAYS * 0.8)).mean()
+
+    # Drop early rows without MAs and filter from 2007 onwards
+    df = df.dropna()
+    df = df[df.index >= "2007-01-01"]
+
+    # Resample to weekly (Fridays) to keep the JSON small but granular
+    df = df.resample("W-FRI").last().dropna()
+
+    history = []
+    for date, row in df.iterrows():
+        # Remember: Bonds are inverted (yield > MA means price is falling)
+        b_sig = "falling" if row["bonds"] > row["bonds_ma"] else "rising"
+        e_sig = "rising" if row["equities"] > row["equities_ma"] else "falling"
+        c_sig = "rising" if row["commodities"] > row["commodities_ma"] else "falling"
+
+        key = (b_sig, e_sig, c_sig)
+        stage_num, _ = STAGE_MAP.get(key, (None, "Indeterminate"))
+
+        if stage_num is not None:
+            history.append({
+                "date": date.strftime("%Y-%m-%d"),
+                "stage": stage_num,
+                "bonds": b_sig,
+                "equities": e_sig,
+                "commodities": c_sig
+            })
+
+    return history
+
+
 # ---------------------------------------------------------------------------
 # History tracking
 # ---------------------------------------------------------------------------
@@ -563,6 +616,14 @@ def main():
     with open(history_path, "w") as f:
         json.dump(history, f, indent=2)
     print(f"Wrote: {history_path} ({len(history)} entries)")
+
+    # ---- Historical backtest ----
+    print("\nComputing historical stages backtest since 2007...")
+    hist_stages = compute_historical_stages(raw_data)
+    hist_path = base_dir / "data" / "historical_stages.json"
+    with open(hist_path, "w") as f:
+        json.dump(hist_stages, f, indent=2)
+    print(f"Wrote: {hist_path} ({len(hist_stages)} weekly entries)")
 
     # ---- Write meta.json ----
     meta = {

@@ -2,25 +2,28 @@
 
 import { useEffect, useState } from "react";
 import type { Indicators, SeriesFile } from "@/lib/types";
-import { fetchIndicators, fetchAllSeries } from "@/lib/data";
+import { fetchIndicators, fetchAllSeries, fetchHistoricalStages } from "@/lib/data";
 import StageIndicator from "@/components/StageIndicator";
 import BarometerCard from "@/components/BarometerCard";
 import AlertsPanel from "@/components/AlertsPanel";
 import StageTimeline from "@/components/StageTimeline";
 import { MacroIndicatorsPanel } from "@/components/MacroIndicatorsPanel";
+import { HistoricalChart } from "@/components/HistoricalChart";
 
 export default function Home() {
   const [indicators, setIndicators] = useState<Indicators | null>(null);
   const [series, setSeries] = useState<Record<string, SeriesFile>>({});
+  const [historical, setHistorical] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
       try {
-        const [ind, ser] = await Promise.all([fetchIndicators(), fetchAllSeries()]);
+        const [ind, ser, hist] = await Promise.all([fetchIndicators(), fetchAllSeries(), fetchHistoricalStages()]);
         setIndicators(ind);
         setSeries(ser);
+        setHistorical(hist);
       } catch (e) {
         setError(e instanceof Error ? e.message : "Failed to load data");
       } finally {
@@ -64,6 +67,9 @@ export default function Home() {
         allocation={indicators.allocation}
         computedAt={indicators.computed_at}
       />
+
+      {/* Historical Backtest Chart */}
+      <HistoricalChart data={historical} />
 
       {/* 3 Barometer cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
