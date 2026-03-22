@@ -22,6 +22,7 @@ export async function fetchAllSeries(): Promise<Record<string, SeriesFile>> {
     "treasury_10y", "sp500", "commodity_djp",
     "yield_curve", "credit_spread", "vix",
     "sahm_rule", "oil_wti",
+    "discount_rate", "m2_money", "jobless_claims", "capacity_util", "commercial_paper"
   ];
   const results: Record<string, SeriesFile> = {};
   await Promise.all(

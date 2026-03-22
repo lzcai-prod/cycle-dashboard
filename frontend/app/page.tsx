@@ -85,7 +85,7 @@ export default function Home() {
       </div>
 
       <div className="mb-6">
-        <MacroIndicatorsPanel indicators={indicators} />
+        <MacroIndicatorsPanel indicators={indicators} series={series} />
       </div>
 
       {/* Threshold alerts */}

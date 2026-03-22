@@ -1,14 +1,13 @@
 "use client";
 
 import { Info } from "lucide-react";
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis } from "recharts";
 
-export function MacroIndicatorsPanel({ indicators }: { indicators: any }) {
+export function MacroIndicatorsPanel({ indicators, series }: { indicators: any, series: any }) {
   if (!indicators || !indicators.macro_indicators) return null;
 
   const macro = indicators.macro_indicators;
-  
-  // Convert dict to array
-  const items = Object.values(macro) as any[];
+  const entries = Object.entries(macro) as [string, any][];
 
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
@@ -23,38 +22,102 @@ export function MacroIndicatorsPanel({ indicators }: { indicators: any }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {items.map((item, idx) => (
-          <a
-            key={idx}
-            href={item.source}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block p-4 rounded-lg bg-zinc-800/50 border border-zinc-700/50 hover:bg-zinc-800 transition-colors"
-          >
-            <div className="text-xs text-zinc-400 mb-1 font-medium">{item.name}</div>
-            
-            <div className="flex items-end gap-2 mb-2">
-              <span className="text-2xl font-semibold text-zinc-100">
-                {item.value.toLocaleString()}
-                {item.name.includes("YoY") || item.name.includes("Utilization") ? "%" : ""}
-              </span>
-            </div>
+        {entries.map(([key, item], idx) => {
+          
+          let displayValue = "";
+          let suffix = "";
+          if (key === "m2_money") {
+            displayValue = "$" + item.value.toLocaleString() + "B";
+            suffix = \ (\\% YoY)\;
+          } else if (key === "jobless_claims") {
+            displayValue = item.value.toLocaleString();
+          } else {
+            // rates / percents
+            displayValue = item.value.toLocaleString() + "%";
+          }
 
-            <div className="mb-2">
-              <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                item.signal.includes("Tightening") || item.signal.includes("Contraction") || item.signal.includes("Rising Stress") || item.signal.includes("Labor Weakening") || item.signal.includes("Tight Capacity")
-                  ? "bg-red-500/10 text-red-400"
-                  : "bg-emerald-500/10 text-emerald-400"
-              }`}>
-                {item.signal}
-              </span>
-            </div>
+          const isNegative = item.signal.includes("Tightening") || item.signal.includes("Contraction") || item.signal.includes("Rising Stress") || item.signal.includes("Labor Weakening") || item.signal.includes("Tight Capacity");
+          const badgeClass = isNegative ? "bg-red-500/10 text-red-400" : "bg-emerald-500/10 text-emerald-400";
+          const color = isNegative ? "#ef4444" : "#10b981";
 
-            <p className="text-xs text-zinc-500 leading-snug">
-              {item.interpretation}
-            </p>
-          </a>
-        ))}
+          const seriesData = series && series[key] ? series[key].data.slice(-500).map((d: any) => ({ date: d[0], value: d[1] })) : [];
+
+          return (
+            <a
+              key={key}
+              href={item.source}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-4 rounded-lg bg-zinc-800/50 border border-zinc-700/50 hover:bg-zinc-800 transition-colors flex flex-col justify-between"
+            >
+              <div>
+                <div className="text-xs text-zinc-400 mb-1 font-medium">{item.name}</div>
+                
+                <div className="flex items-end gap-2 mb-2">
+                  <span className="text-2xl font-semibold text-zinc-100">
+                    {displayValue}
+                  </span>
+                  {suffix && <span className="text-sm font-medium text-zinc-400 mb-1">{suffix}</span>}
+                </div>
+
+                <div className="mb-2">
+                  <span className={\inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium \\}>
+                    {item.signal}
+                  </span>
+                </div>
+
+                <p className="text-xs text-zinc-500 leading-snug mb-3">
+                  {item.interpretation}
+                </p>
+              </div>
+
+              {seriesData.length > 0 && (
+                <div style={{ width: "100%", height: 60, marginTop: "auto" }}>
+                  <ResponsiveContainer>
+                    <AreaChart data={seriesData} margin={{ top: 2, right: 2, bottom: 0, left: 2 }}>
+                      <defs>
+                        <linearGradient id={\grad-\\} x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor={color} stopOpacity={0.3} />
+                          <stop offset="100%" stopColor={color} stopOpacity={0.05} />
+                        </linearGradient>
+                      </defs>
+                      <XAxis
+                        dataKey="date"
+                        tickFormatter={(d: string) => {
+                          const parts = d.split("-");
+                          return \\/\\;
+                        }}
+                        minTickGap={40}
+                        tick={{ fontSize: 9, fill: "#71717a" }}
+                        axisLine={false}
+                        tickLine={false}
+                      />
+                      <YAxis
+                        domain={["auto", "auto"]}
+                        tick={{ fontSize: 9, fill: "#71717a" }}
+                        width={30}
+                        axisLine={false}
+                        tickLine={false}
+                        tickFormatter={(val: number) => {
+                          if (val >= 1000) return (val/1000).toFixed(0) + "k";
+                          return val.toString();
+                        }}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="value"
+                        stroke={color}
+                        fill={\url(#grad-\)\}
+                        strokeWidth={1.5}
+                        isAnimationActive={false}
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
+            </a>
+          );
+        })}
       </div>
     </div>
   );
