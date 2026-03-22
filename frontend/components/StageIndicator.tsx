@@ -32,7 +32,16 @@ export default function StageIndicator({ stage, allocation, computedAt }: Props)
         </div>
       </div>
 
-      <p className="mb-4" style={{ color: "var(--text-secondary)" }}>{desc}</p>
+      <p className="mb-3" style={{ color: "var(--text-secondary)" }}>{desc}</p>
+
+      <div className="rounded-lg p-3 mb-4 text-xs leading-relaxed" style={{ background: "var(--bg-primary)", color: "var(--text-muted)" }}>
+        <span className="font-semibold" style={{ color: "var(--text-secondary)" }}>How is the stage determined?</span>{" "}
+        Each asset class is compared to its 200-day moving average:{" "}
+        <span style={{ color: "var(--text-primary)" }}>Bonds</span> (10Y Treasury Yield, inverted),{" "}
+        <span style={{ color: "var(--text-primary)" }}>Equities</span> (S&amp;P 500),{" "}
+        <span style={{ color: "var(--text-primary)" }}>Commodities</span> (DJP ETN).
+        The combination of rising/falling signals maps to one of Pring&apos;s 6 stages.
+      </div>
 
       {/* Allocation guidance */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
