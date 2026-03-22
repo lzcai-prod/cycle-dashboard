@@ -39,6 +39,11 @@ FRED_SERIES = {
     "vix":           {"id": "VIXCLS",         "name": "VIX (Implied Volatility)",     "unit": "index",      "frequency": "daily"},
     "sahm_rule":     {"id": "SAHMREALTIME",   "name": "Sahm Rule Recession Indicator","unit": "percentage_points", "frequency": "monthly"},
     "oil_wti":       {"id": "DCOILWTICO",     "name": "WTI Crude Oil Price",          "unit": "usd_per_barrel",    "frequency": "daily"},
+    "discount_rate": {"id": "DPCREDIT",      "name": "Discount Rate (Primary Credit)", "unit": "percent",    "frequency": "daily"},
+    "m2_money":      {"id": "M2SL",          "name": "M2 Money Supply",              "unit": "billions_usd", "frequency": "monthly"},
+    "jobless_claims":{"id": "ICSA",          "name": "Initial Jobless Claims",       "unit": "claims",       "frequency": "weekly"},
+    "capacity_util": {"id": "TCU",           "name": "Capacity Utilization",         "unit": "percent",      "frequency": "monthly"},
+    "commercial_paper":{"id":"DCPN3M",       "name": "3-Month Commercial Paper Yield","unit": "percent",     "frequency": "daily"},
 }
 
 YAHOO_SERIES = {
@@ -171,6 +176,83 @@ def compute_barometer(series: pd.Series, name: str, invert: bool = False,
         "signal_changed_date": signal_changed,
     }
 
+
+def compute_macro_indicators(raw_data: dict) -> dict:
+    """Compute and format Pring's specific macro leading indicators."""
+    macro = {}
+
+    # Discount Rate (DPCREDIT) - Core monetary indicator
+    dr = raw_data.get("discount_rate")
+    if dr is not None and not dr.empty:
+        val = float(dr.iloc[-1])
+        ma_200 = float(dr.tail(200).mean()) if len(dr) >= 200 else float(dr.mean())
+        macro["discount_rate"] = {
+            "name": "Discount Rate (Primary Credit)",
+            "value": round(val, 2),
+            "ma_200d": round(ma_200, 2),
+            "signal": "Rising (Tightening)" if val > ma_200 else "Falling (Easing)",
+            "interpretation": "The most influential indicator in the Bond Barometer. Rising rates press bond prices down.",
+            "source": f"{FRED_BASE_URL}DPCREDIT"
+        }
+
+    # Money Supply (M2SL) - YoY Growth
+    m2 = raw_data.get("m2_money")
+    if m2 is not None and not m2.empty and len(m2) >= 12:
+        val = float(m2.iloc[-1])
+        yoy = ((val - float(m2.iloc[-13])) / float(m2.iloc[-13])) * 100
+        macro["m2_money"] = {
+            "name": "M2 Money Supply (YoY Growth)",
+            "value": round(val, 2),
+            "yoy_pct": round(yoy, 2),
+            "signal": "Positive Liquidity" if yoy > 0 else "Liquidity Contraction",
+            "interpretation": "Liquidity growth drives the transition from Stage 6 to Stage 1. Sustained contraction is a heavy drag.",
+            "source": f"{FRED_BASE_URL}M2SL"
+        }
+
+    # Commercial Paper (CP3M)
+    cp = raw_data.get("commercial_paper")
+    if cp is not None and not cp.empty:
+        val = float(cp.iloc[-1])
+        ma_12 = float(cp.tail(12).mean()) if len(cp) >= 12 else float(cp.mean())
+        macro["commercial_paper"] = {
+            "name": "3-Month Commercial Paper Yield",
+            "value": round(val, 2),
+            "ma_12m": round(ma_12, 2),
+            "signal": "Rising Stress" if val > ma_12 else "Falling Stress",
+            "interpretation": "Primary financial component for the Stock Barometer. Rising short-term yields drain corporate liquidity.",
+            "source": f"{FRED_BASE_URL}DCPN3M"
+        }
+
+    # Initial Jobless Claims (ICSA) - 4 week MA
+    jc = raw_data.get("jobless_claims")
+    if jc is not None and not jc.empty and len(jc) >= 4:
+        val = float(jc.iloc[-1])
+        ma_4wk = float(jc.tail(4).mean())
+        ma_52wk = float(jc.tail(52).mean()) if len(jc) >= 52 else float(jc.mean())
+        macro["jobless_claims"] = {
+            "name": "Initial Jobless Claims (4-wk MA)",
+            "value": round(val, 0),
+            "ma_4wk": round(ma_4wk, 0),
+            "ma_52wk": round(ma_52wk, 0),
+            "signal": "Labor Weakening" if ma_4wk > ma_52wk else "Labor Strong",
+            "interpretation": "Best high-frequency leading economic indicator. Rising claims signal economic topping.",
+            "source": f"{FRED_BASE_URL}ICSA"
+        }
+
+    # Capacity Utilization (TCU)
+    cu = raw_data.get("capacity_util")
+    if cu is not None and not cu.empty:
+        val = float(cu.iloc[-1])
+        macro["capacity_util"] = {
+            "name": "Capacity Utilization (Total Industry)",
+            "value": round(val, 2),
+            "threshold": 80.0,
+            "signal": "Tight Capacity (Inflationary)" if val >= 80 else "Excess Capacity (Deflationary)",
+            "interpretation": "Measures manufacturing tightness. High utilization signals late-stage expansion and impending inflation.",
+            "source": f"{FRED_BASE_URL}TCU"
+        }
+
+    return macro
 
 def compute_thresholds(indicators_raw: dict) -> dict:
     """Compute threshold alerts from raw indicator data."""
@@ -426,6 +508,12 @@ def main():
         val = alert.get("value", alert.get("current_price", "?"))
         print(f"  {alert['name']}: {val} [{flag}]")
 
+    # ---- Macro Indicators ----
+    print("\nComputing Pring's true macro indicators...")
+    macro_indicators = compute_macro_indicators(raw_data)
+    for key, mac in macro_indicators.items():
+        print(f"  {mac['name']}: {mac['value']} ({mac['signal']})")
+
     # ---- Allocation guidance ----
     allocation = get_allocation_guidance(stage_info["stage"])
 
@@ -441,6 +529,7 @@ def main():
         "stage": stage_info,
         "allocation": allocation,
         "threshold_alerts": alerts,
+        "macro_indicators": macro_indicators,
         "stage_reference": {
             "1": {"label": "Late Recession",  "bonds": "rising",  "equities": "falling", "commodities": "falling"},
             "2": {"label": "Early Recovery",   "bonds": "rising",  "equities": "rising",  "commodities": "falling"},

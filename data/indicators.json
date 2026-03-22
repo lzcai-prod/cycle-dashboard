@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-03-22T03:14:35Z",
+  "computed_at": "2026-03-22T14:44:52Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -109,6 +109,49 @@
       "interpretation": "normal",
       "reference": "Hamilton (1983, 2009): rapid oil price doublings precede recessions",
       "source": "https://fred.stlouisfed.org/series/DCOILWTICO"
+    }
+  },
+  "macro_indicators": {
+    "discount_rate": {
+      "name": "Discount Rate (Primary Credit)",
+      "value": 3.75,
+      "ma_200d": 4.12,
+      "signal": "Falling (Easing)",
+      "interpretation": "The most influential indicator in the Bond Barometer. Rising rates press bond prices down.",
+      "source": "https://fred.stlouisfed.org/series/DPCREDIT"
+    },
+    "m2_money": {
+      "name": "M2 Money Supply (YoY Growth)",
+      "value": 22442.1,
+      "yoy_pct": 4.29,
+      "signal": "Positive Liquidity",
+      "interpretation": "Liquidity growth drives the transition from Stage 6 to Stage 1. Sustained contraction is a heavy drag.",
+      "source": "https://fred.stlouisfed.org/series/M2SL"
+    },
+    "commercial_paper": {
+      "name": "3-Month Commercial Paper Yield",
+      "value": 3.75,
+      "ma_12m": 3.71,
+      "signal": "Rising Stress",
+      "interpretation": "Primary financial component for the Stock Barometer. Rising short-term yields drain corporate liquidity.",
+      "source": "https://fred.stlouisfed.org/series/DCPN3M"
+    },
+    "jobless_claims": {
+      "name": "Initial Jobless Claims (4-wk MA)",
+      "value": 205000.0,
+      "ma_4wk": 210750.0,
+      "ma_52wk": 224385.0,
+      "signal": "Labor Strong",
+      "interpretation": "Best high-frequency leading economic indicator. Rising claims signal economic topping.",
+      "source": "https://fred.stlouisfed.org/series/ICSA"
+    },
+    "capacity_util": {
+      "name": "Capacity Utilization (Total Industry)",
+      "value": 76.29,
+      "threshold": 80.0,
+      "signal": "Excess Capacity (Deflationary)",
+      "interpretation": "Measures manufacturing tightness. High utilization signals late-stage expansion and impending inflation.",
+      "source": "https://fred.stlouisfed.org/series/TCU"
     }
   },
   "stage_reference": {

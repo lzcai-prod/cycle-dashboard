@@ -7,6 +7,7 @@ import StageIndicator from "@/components/StageIndicator";
 import BarometerCard from "@/components/BarometerCard";
 import AlertsPanel from "@/components/AlertsPanel";
 import StageTimeline from "@/components/StageTimeline";
+import { MacroIndicatorsPanel } from "@/components/MacroIndicatorsPanel";
 
 export default function Home() {
   const [indicators, setIndicators] = useState<Indicators | null>(null);
@@ -81,6 +82,10 @@ export default function Home() {
           series={series.commodity_djp}
           label="Commodity Barometer"
         />
+      </div>
+
+      <div className="mb-6">
+        <MacroIndicatorsPanel indicators={indicators} />
       </div>
 
       {/* Threshold alerts */}
