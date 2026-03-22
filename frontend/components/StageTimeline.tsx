@@ -18,13 +18,13 @@ export default function StageTimeline({ currentStage, stageReference }: Props) {
   const stages = [1, 2, 3, 4, 5, 6];
 
   return (
-    <div className="rounded-xl p-5 mb-6" style={{ background: "var(--bg-card)" }}>
-      <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 mb-6">
+      <h2 className="text-xl font-medium text-white mb-4">
         Pring&apos;s 6-Stage Business Cycle
       </h2>
 
       {/* Visual cycle bar */}
-      <div className="flex gap-1 mb-4">
+      <div className="flex gap-1 mb-6">
         {stages.map((s) => {
           const isCurrent = s === currentStage;
           const color = STAGE_COLORS[s] || "#71717a";
@@ -49,12 +49,12 @@ export default function StageTimeline({ currentStage, stageReference }: Props) {
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
           <thead>
-            <tr style={{ color: "var(--text-muted)" }}>
-              <th className="text-left py-2 px-2">Stage</th>
-              <th className="text-left py-2 px-2">Phase</th>
-              <th className="text-center py-2 px-2">Bonds</th>
-              <th className="text-center py-2 px-2">Equities</th>
-              <th className="text-center py-2 px-2">Commodities</th>
+            <tr className="text-zinc-500 border-b border-zinc-800">
+              <th className="text-left py-3 px-2 font-medium">Stage</th>
+              <th className="text-left py-3 px-2 font-medium">Phase</th>
+              <th className="text-center py-3 px-2 font-medium">Bonds</th>
+              <th className="text-center py-3 px-2 font-medium">Equities</th>
+              <th className="text-center py-3 px-2 font-medium">Commodities</th>
             </tr>
           </thead>
           <tbody>
@@ -66,27 +66,28 @@ export default function StageTimeline({ currentStage, stageReference }: Props) {
               return (
                 <tr
                   key={s}
+                  className="border-b border-zinc-800/50"
                   style={{
                     background: isCurrent ? `${color}15` : "transparent",
                     borderLeft: isCurrent ? `3px solid ${color}` : "3px solid transparent",
                   }}
                 >
-                  <td className="py-2 px-2 font-bold" style={{ color }}>{s}</td>
-                  <td className="py-2 px-2" style={{ color: isCurrent ? "var(--text-primary)" : "var(--text-secondary)" }}>
-                    {ref.label} {isCurrent && "← You are here"}
+                  <td className="py-3 px-3 font-bold" style={{ color }}>{s}</td>
+                  <td className="py-3 px-2 text-zinc-300">
+                    {ref.label} {isCurrent && <span className="text-zinc-500 ml-1 italic text-[10px]">👈 You are here</span>}
                   </td>
-                  <td className="py-2 px-2 text-center">
-                    <span style={{ color: ref.bonds === "rising" ? "var(--accent-green)" : "var(--accent-red)" }}>
+                  <td className="py-3 px-2 text-center font-bold">
+                    <span className={ref.bonds === "rising" ? "text-emerald-400" : "text-red-400"}>
                       {ref.bonds === "rising" ? "↑" : "↓"}
                     </span>
                   </td>
-                  <td className="py-2 px-2 text-center">
-                    <span style={{ color: ref.equities === "rising" ? "var(--accent-green)" : "var(--accent-red)" }}>
+                  <td className="py-3 px-2 text-center font-bold">
+                    <span className={ref.equities === "rising" ? "text-emerald-400" : "text-red-400"}>
                       {ref.equities === "rising" ? "↑" : "↓"}
                     </span>
                   </td>
-                  <td className="py-2 px-2 text-center">
-                    <span style={{ color: ref.commodities === "rising" ? "var(--accent-green)" : "var(--accent-red)" }}>
+                  <td className="py-3 px-2 text-center font-bold">
+                    <span className={ref.commodities === "rising" ? "text-emerald-400" : "text-red-400"}>
                       {ref.commodities === "rising" ? "↑" : "↓"}
                     </span>
                   </td>
@@ -95,11 +96,6 @@ export default function StageTimeline({ currentStage, stageReference }: Props) {
             })}
           </tbody>
         </table>
-      </div>
-
-      <div className="mt-3 text-xs" style={{ color: "var(--text-muted)" }}>
-        Source: Martin Pring, &quot;The Investor&apos;s Guide to Active Asset Allocation&quot; (2006).
-        Each barometer compares the asset to its 200-day moving average.
       </div>
     </div>
   );

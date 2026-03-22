@@ -40,27 +40,27 @@ export default function BarometerCard({ barometer, series, label }: Props) {
   }
 
   return (
-    <div className="rounded-xl p-5" style={{ background: "var(--bg-card)", borderLeft: `4px solid ${signalColor}` }}>
-      <div className="flex items-center justify-between mb-2">
-        <div className="text-sm font-medium" style={{ color: "var(--text-secondary)" }}>{label}</div>
-        <div className="text-lg font-bold" style={{ color: signalColor }}>
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 flex flex-col h-full">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-medium text-white">{label}</h2>
+        <div className={`px-2 py-0.5 rounded-full text-xs font-bold ${isRising ? "bg-emerald-500/10 text-emerald-400" : "bg-red-500/10 text-red-400"}`}>
           {arrow} {barometer.signal.toUpperCase()}
         </div>
       </div>
 
       {/* Key numbers */}
-      <div className="grid grid-cols-3 gap-2 mb-3 text-center">
-        <div>
-          <div className="text-xs" style={{ color: "var(--text-muted)" }}>Current</div>
-          <div className="text-sm font-mono font-semibold">{barometer.current?.toFixed(2)}</div>
+      <div className="grid grid-cols-3 gap-2 mb-4 text-center">
+        <div className="bg-zinc-800/50 rounded-lg p-2 border border-zinc-700/50">
+          <div className="text-xs text-zinc-400 mb-1">Current</div>
+          <div className="text-lg font-mono font-semibold text-zinc-100">{barometer.current?.toFixed(2)}</div>
         </div>
-        <div>
-          <div className="text-xs" style={{ color: "var(--text-muted)" }}>200d MA</div>
-          <div className="text-sm font-mono font-semibold">{barometer.ma_200d?.toFixed(2)}</div>
+        <div className="bg-zinc-800/50 rounded-lg p-2 border border-zinc-700/50">
+          <div className="text-xs text-zinc-400 mb-1">200d MA</div>
+          <div className="text-lg font-mono font-semibold text-zinc-100">{barometer.ma_200d?.toFixed(2)}</div>
         </div>
-        <div>
-          <div className="text-xs" style={{ color: "var(--text-muted)" }}>% from MA</div>
-          <div className="text-sm font-mono font-semibold" style={{ color: signalColor }}>
+        <div className="bg-zinc-800/50 rounded-lg p-2 border border-zinc-700/50">
+          <div className="text-xs text-zinc-400 mb-1">% Diff</div>
+          <div className={`text-lg font-mono font-semibold ${isRising ? "text-emerald-400" : "text-red-400"}`}>
             {barometer.pct_from_ma > 0 ? "+" : ""}{barometer.pct_from_ma?.toFixed(2)}%
           </div>
         </div>
@@ -68,8 +68,8 @@ export default function BarometerCard({ barometer, series, label }: Props) {
 
       {/* Inversion note */}
       {barometer.inversion && (
-        <div className="text-xs mb-3 px-2 py-1 rounded" style={{ background: "var(--bg-primary)", color: "var(--text-muted)" }}>
-          ⚠ {barometer.inversion_reason}
+        <div className="text-xs mb-4 px-3 py-2 rounded-lg bg-zinc-800/50 text-zinc-400 border border-zinc-700/50">
+          <span className="text-amber-500 font-bold mr-1">⚠</span> {barometer.inversion_reason}
         </div>
       )}
 
@@ -85,27 +85,32 @@ export default function BarometerCard({ barometer, series, label }: Props) {
                   return `${parts[1]}/${parts[0].slice(2)}`;
                 }}
                 minTickGap={40}
-                tick={{ fontSize: 10 }}
+                tick={{ fontSize: 9, fill: "#71717a" }}
+                axisLine={false}
+                tickLine={false}
               />
               <YAxis
                 domain={["auto", "auto"]}
-                tick={{ fontSize: 10 }}
-                width={50}
+                tick={{ fontSize: 9, fill: "#71717a" }}
+                width={35}
+                axisLine={false}
+                tickLine={false}
               />
               <Tooltip
                 contentStyle={{
-                  background: "var(--bg-card)",
-                  border: "1px solid var(--border)",
-                  borderRadius: 8,
-                  fontSize: 12,
+                  background: "#1a1d2e",
+                  border: "1px solid #2a2d3e",
+                  borderRadius: 6,
+                  fontSize: 11,
+                  padding: "4px 8px",
                 }}
-                labelStyle={{ color: "var(--text-secondary)" }}
+                labelStyle={{ color: "#a1a1aa", fontSize: 10 }}
               />
               <Area
                 type="monotone"
                 dataKey="value"
-                stroke={signalColor}
-                fill={`${signalColor}15`}
+                stroke={isRising ? "#10b981" : "#ef4444"}
+                fill={isRising ? "#10b98115" : "#ef444415"}
                 strokeWidth={1.5}
                 dot={false}
                 name={series?.name || "Value"}
