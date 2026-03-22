@@ -68,9 +68,6 @@ export default function Home() {
         computedAt={indicators.computed_at}
       />
 
-      {/* Historical Backtest Chart */}
-      <HistoricalChart data={historical} />
-
       {/* 3 Barometer cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <BarometerCard
@@ -89,6 +86,9 @@ export default function Home() {
           label="Commodity Barometer"
         />
       </div>
+
+      {/* Historical Backtest Chart */}
+      <HistoricalChart data={historical} />
 
       <div className="mb-6">
         <MacroIndicatorsPanel indicators={indicators} series={series} />

@@ -257,9 +257,9 @@ function AssetPanel({ data, label, subtitle, valKey, maKey, sigKey, showXAxis, l
             <Line
               type="monotone"
               dataKey={actualMaKey}
-              stroke="#71717a"
-              strokeWidth={1}
-              strokeDasharray="4 3"
+              stroke="#facc15"
+              strokeWidth={2}
+              strokeDasharray="6 3"
               dot={false}
               isAnimationActive={false}
             />
