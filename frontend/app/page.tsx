@@ -84,7 +84,7 @@ export default function Home() {
       </div>
 
       {/* Threshold alerts */}
-      <AlertsPanel alerts={indicators.threshold_alerts} />
+      <AlertsPanel alerts={indicators.threshold_alerts} series={series} />
 
       {/* Stage reference table */}
       <StageTimeline
