@@ -13,7 +13,7 @@ export function MacroIndicatorsPanel({ indicators }: { indicators: any }) {
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
       <div className="flex items-center gap-2 mb-4">
-        <h2 className="text-xl font-medium text-white">Pring's Macro Indicators</h2>
+        <h2 className="text-xl font-medium text-white">Pring&apos;s Macro Indicators</h2>
         <div className="group relative">
           <Info className="h-4 w-4 text-zinc-500 cursor-help" />
           <div className="absolute left-0 bottom-6 w-64 rounded-md bg-zinc-800 p-3 text-xs text-zinc-300 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
