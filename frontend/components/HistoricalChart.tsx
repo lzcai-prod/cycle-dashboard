@@ -142,21 +142,65 @@ interface AssetPanelProps {
   maKey: "bonds_ma" | "equities_ma" | "commodities_ma";
   sigKey: "bonds_sig" | "equities_sig" | "commodities_sig";
   showXAxis?: boolean;
+  logScale?: boolean;
   yFormat?: (v: number) => string;
 }
 
-function AssetPanel({ data, label, subtitle, valKey, maKey, sigKey, showXAxis, yFormat }: AssetPanelProps) {
+function AssetPanel({ data, label, subtitle, valKey, maKey, sigKey, showXAxis, logScale, yFormat }: AssetPanelProps) {
   const segments = useMemo(() => buildSegments(data, sigKey), [data, sigKey]);
+
+  // For log scale: transform values and compute nice tick values
+  const { chartData, logTicks, logDomain } = useMemo(() => {
+    if (!logScale) return { chartData: data, logTicks: undefined, logDomain: undefined };
+
+    // Find min/max across both val and ma
+    let min = Infinity, max = -Infinity;
+    for (const d of data) {
+      const v = d[valKey] as number;
+      const m = d[maKey] as number;
+      if (v > 0 && v < min) min = v;
+      if (m > 0 && m < min) min = m;
+      if (v > max) max = v;
+      if (m > max) max = m;
+    }
+
+    // Transform to log space
+    const transformed = data.map((d) => ({
+      ...d,
+      [valKey + "_log"]: d[valKey] > 0 ? Math.log10(d[valKey] as number) : 0,
+      [maKey + "_log"]: d[maKey] > 0 ? Math.log10(d[maKey] as number) : 0,
+    }));
+
+    // Generate nice log ticks (powers of 10 and midpoints)
+    const logMin = Math.floor(Math.log10(min));
+    const logMax = Math.ceil(Math.log10(max));
+    const ticks: number[] = [];
+    for (let p = logMin; p <= logMax; p++) {
+      ticks.push(p);
+      if (p < logMax) ticks.push(p + Math.log10(2));  // midpoint at 2x
+      if (p < logMax) ticks.push(p + Math.log10(5));  // midpoint at 5x
+    }
+
+    return {
+      chartData: transformed,
+      logTicks: ticks.filter(t => t >= Math.log10(min * 0.9) && t <= Math.log10(max * 1.1)),
+      logDomain: [Math.log10(min * 0.9), Math.log10(max * 1.1)] as [number, number],
+    };
+  }, [data, logScale, valKey, maKey]);
+
+  const actualValKey = logScale ? valKey + "_log" : valKey;
+  const actualMaKey = logScale ? maKey + "_log" : maKey;
 
   return (
     <div>
       <div className="flex items-center gap-2 mb-1">
         <span className="text-xs font-semibold text-zinc-300">{label}</span>
         <span className="text-[10px] text-zinc-500">{subtitle}</span>
+        {logScale && <span className="text-[9px] text-zinc-600 italic">log scale</span>}
       </div>
       <div style={{ width: "100%", height: 120 }}>
         <ResponsiveContainer>
-          <ComposedChart data={data} margin={{ top: 5, right: 10, left: -15, bottom: 0 }}>
+          <ComposedChart data={chartData} margin={{ top: 5, right: 10, left: -15, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#27272a" />
             {segments.map((seg, i) => (
               <ReferenceArea
@@ -177,23 +221,34 @@ function AssetPanel({ data, label, subtitle, valKey, maKey, sigKey, showXAxis, y
               tickLine={false}
             />
             <YAxis
-              domain={["auto", "auto"]}
+              domain={logScale ? logDomain : ["auto", "auto"]}
+              ticks={logScale ? logTicks : undefined}
               tick={{ fontSize: 9, fill: "#71717a" }}
               axisLine={false}
               tickLine={false}
-              tickFormatter={yFormat || ((v: number) => String(v))}
+              tickFormatter={logScale
+                ? (v: number) => {
+                    const actual = Math.pow(10, v);
+                    if (yFormat) return yFormat(actual);
+                    return String(Math.round(actual));
+                  }
+                : (yFormat || ((v: number) => String(v)))
+              }
             />
             <Tooltip
               contentStyle={{ backgroundColor: "#18181b", borderColor: "#3f3f46", fontSize: "11px", borderRadius: "8px" }}
               labelStyle={{ color: "#a1a1aa" }}
-              formatter={(val: number, name: string) => [
-                (yFormat ? yFormat(val) : val.toFixed(2)),
-                name === valKey ? "Value" : "200d MA"
-              ]}
+              formatter={(val: number, name: string) => {
+                const actual = logScale ? Math.pow(10, val) : val;
+                return [
+                  (yFormat ? yFormat(actual) : actual.toFixed(2)),
+                  name.includes("_log") ? (name.includes("ma") ? "200d MA" : "Value") : (name === valKey ? "Value" : "200d MA")
+                ];
+              }}
             />
             <Line
               type="monotone"
-              dataKey={valKey}
+              dataKey={actualValKey}
               stroke="#e4e4e7"
               strokeWidth={1.5}
               dot={false}
@@ -201,7 +256,7 @@ function AssetPanel({ data, label, subtitle, valKey, maKey, sigKey, showXAxis, y
             />
             <Line
               type="monotone"
-              dataKey={maKey}
+              dataKey={actualMaKey}
               stroke="#71717a"
               strokeWidth={1}
               strokeDasharray="4 3"
@@ -249,6 +304,7 @@ export function HistoricalChart({ data }: { data: HistEntry[] }) {
           valKey="equities_val"
           maKey="equities_ma"
           sigKey="equities_sig"
+          logScale
           yFormat={(v) => {
             if (v >= 1000) return (v / 1000).toFixed(1) + "k";
             return String(Math.round(v));
@@ -263,6 +319,7 @@ export function HistoricalChart({ data }: { data: HistEntry[] }) {
           maKey="commodities_ma"
           sigKey="commodities_sig"
           showXAxis
+          logScale
           yFormat={(v) => "$" + v.toFixed(0)}
         />
       </div>
