@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-03-23T07:16:37Z",
+  "computed_at": "2026-03-24T07:09:30Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.25,
-      "current_date": "2026-03-19",
-      "ma_200d": 4.2005,
-      "pct_from_ma": 1.18,
+      "current": 4.39,
+      "current_date": "2026-03-20",
+      "ma_200d": 4.2004,
+      "pct_from_ma": 4.51,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 6506.48,
-      "current_date": "2026-03-20",
-      "ma_200d": 6621.7338,
-      "pct_from_ma": -1.74,
+      "current": 6581.0,
+      "current_date": "2026-03-23",
+      "ma_200d": 6624.7847,
+      "pct_from_ma": -0.66,
       "above_ma": false,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 47.34,
-      "current_date": "2026-03-20",
-      "ma_200d": 37.3602,
-      "pct_from_ma": 26.71,
+      "current": 45.51,
+      "current_date": "2026-03-23",
+      "ma_200d": 37.4175,
+      "pct_from_ma": 21.63,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 3.27,
+      "value": 3.24,
       "one_year_low": 2.64,
-      "widening_from_low": 0.63,
+      "widening_from_low": 0.6,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,13 +82,13 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 24.06,
+      "value": 26.78,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
         "panic": 40
       },
-      "triggered_level": "normal",
+      "triggered_level": "elevated",
       "source": "https://fred.stlouisfed.org/series/VIXCLS"
     },
     "sahm_rule": {
