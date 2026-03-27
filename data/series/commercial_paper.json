@@ -3,13 +3,9 @@
   "unit": "percent",
   "frequency": "daily",
   "source": "https://fred.stlouisfed.org/series/DCPN3M",
-  "updated": "2026-03-26T07:15:06Z",
+  "updated": "2026-03-27T07:14:18Z",
   "count": 3300,
   "data": [
-    [
-      "2007-01-25",
-      5.18
-    ],
     [
       "2007-02-12",
       5.17
@@ -13205,6 +13201,10 @@
     [
       "2026-03-19",
       3.75
+    ],
+    [
+      "2026-03-25",
+      3.65
     ]
   ]
 }
