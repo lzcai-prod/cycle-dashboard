@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-07T07:23:43Z",
+  "computed_at": "2026-04-08T07:26:49Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.35,
-      "current_date": "2026-04-03",
-      "ma_200d": 4.1965,
-      "pct_from_ma": 3.66,
+      "current": 4.34,
+      "current_date": "2026-04-06",
+      "ma_200d": 4.1959,
+      "pct_from_ma": 3.43,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.5,
+      "value": 0.52,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 3.13,
+      "value": 3.05,
       "one_year_low": 2.64,
-      "widening_from_low": 0.49,
+      "widening_from_low": 0.41,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 23.87,
+      "value": 24.17,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -130,8 +130,8 @@
     },
     "commercial_paper": {
       "name": "3-Month Commercial Paper Yield",
-      "value": 3.77,
-      "ma_12m": 3.73,
+      "value": 3.78,
+      "ma_12m": 3.74,
       "signal": "Rising Stress",
       "interpretation": "Primary financial component for the Stock Barometer. Rising short-term yields drain corporate liquidity.",
       "source": "https://fred.stlouisfed.org/series/DCPN3M"
