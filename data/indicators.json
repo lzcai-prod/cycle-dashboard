@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-09T07:42:54Z",
+  "computed_at": "2026-04-10T07:47:43Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.33,
-      "current_date": "2026-04-07",
-      "ma_200d": 4.1956,
-      "pct_from_ma": 3.2,
+      "current": 4.29,
+      "current_date": "2026-04-08",
+      "ma_200d": 4.1951,
+      "pct_from_ma": 2.26,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,23 +21,23 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 6616.8501,
-      "current_date": "2026-04-07",
-      "ma_200d": 6650.9232,
-      "pct_from_ma": -0.51,
-      "above_ma": false,
+      "current": 6824.6602,
+      "current_date": "2026-04-09",
+      "ma_200d": 6658.9955,
+      "pct_from_ma": 2.49,
+      "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
-      "signal": "falling",
-      "signal_changed_date": "2026-03-19"
+      "signal": "rising",
+      "signal_changed_date": "2026-04-08"
     },
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 48.88,
-      "current_date": "2026-04-07",
-      "ma_200d": 38.0645,
-      "pct_from_ma": 28.41,
+      "current": 47.04,
+      "current_date": "2026-04-09",
+      "ma_200d": 38.1799,
+      "pct_from_ma": 23.21,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -46,23 +46,23 @@
     }
   },
   "stage": {
-    "stage": 5,
-    "label": "Early Downturn",
+    "stage": 3,
+    "label": "Mid Expansion",
     "bonds": "falling",
-    "equities": "falling",
+    "equities": "rising",
     "commodities": "rising"
   },
   "allocation": {
     "bonds": "underweight",
-    "equities": "underweight",
-    "commodities": "neutral",
-    "cash": "raise",
-    "rationale": "Equities falling, commodities topping. Raise cash. Defensive positioning."
+    "equities": "overweight",
+    "commodities": "overweight",
+    "cash": "low",
+    "rationale": "Bonds falling as rates rise. Equities and commodities benefit from expansion."
   },
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.5,
+      "value": 0.51,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 3.12,
+      "value": 2.94,
       "one_year_low": 2.64,
-      "widening_from_low": 0.48,
+      "widening_from_low": 0.3,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,13 +82,13 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 25.78,
+      "value": 21.04,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
         "panic": 40
       },
-      "triggered_level": "elevated",
+      "triggered_level": "normal",
       "source": "https://fred.stlouisfed.org/series/VIXCLS"
     },
     "sahm_rule": {
@@ -115,7 +115,7 @@
     "discount_rate": {
       "name": "Discount Rate (Primary Credit)",
       "value": 3.75,
-      "ma_200d": 4.08,
+      "ma_200d": 4.07,
       "signal": "Falling (Easing)",
       "interpretation": "The most influential indicator in the Bond Barometer. Rising rates press bond prices down.",
       "source": "https://fred.stlouisfed.org/series/DPCREDIT"
@@ -138,9 +138,9 @@
     },
     "jobless_claims": {
       "name": "Initial Jobless Claims (4-wk MA)",
-      "value": 202000.0,
-      "ma_4wk": 207750.0,
-      "ma_52wk": 223788.0,
+      "value": 219000.0,
+      "ma_4wk": 209500.0,
+      "ma_52wk": 223731.0,
       "signal": "Labor Strong",
       "interpretation": "Best high-frequency leading economic indicator. Rising claims signal economic topping.",
       "source": "https://fred.stlouisfed.org/series/ICSA"

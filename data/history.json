@@ -14,5 +14,13 @@
     "bonds": "falling",
     "equities": "falling",
     "commodities": "rising"
+  },
+  {
+    "date": "2026-04-10",
+    "stage": 3,
+    "label": "Mid Expansion",
+    "bonds": "falling",
+    "equities": "rising",
+    "commodities": "rising"
   }
 ]
