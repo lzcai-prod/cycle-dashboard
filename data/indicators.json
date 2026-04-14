@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-13T08:10:35Z",
+  "computed_at": "2026-04-14T07:52:46Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.29,
-      "current_date": "2026-04-09",
-      "ma_200d": 4.1947,
-      "pct_from_ma": 2.27,
+      "current": 4.31,
+      "current_date": "2026-04-10",
+      "ma_200d": 4.1945,
+      "pct_from_ma": 2.75,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 6816.8901,
-      "current_date": "2026-04-10",
-      "ma_200d": 6662.619,
-      "pct_from_ma": 2.32,
+      "current": 6886.2402,
+      "current_date": "2026-04-13",
+      "ma_200d": 6666.5894,
+      "pct_from_ma": 3.29,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 46.73,
-      "current_date": "2026-04-10",
-      "ma_200d": 38.2423,
-      "pct_from_ma": 22.19,
+      "current": 47.26,
+      "current_date": "2026-04-13",
+      "ma_200d": 38.3082,
+      "pct_from_ma": 23.37,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.5,
+      "value": 0.52,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.9,
+      "value": 2.94,
       "one_year_low": 2.64,
-      "widening_from_low": 0.26,
+      "widening_from_low": 0.3,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 19.49,
+      "value": 19.23,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
