@@ -12574,13 +12574,26 @@
     "date": "2026-04-17",
     "stage": 3,
     "bonds_sig": "falling",
-    "bonds_val": 4.32,
-    "bonds_ma": 4.1932,
+    "bonds_val": 4.26,
+    "bonds_ma": 4.1929,
     "equities_sig": "rising",
     "equities_val": 7126.06,
     "equities_ma": 6685.57,
     "commodities_sig": "rising",
     "commodities_val": 46.69,
     "commodities_ma": 38.642
+  },
+  {
+    "date": "2026-04-24",
+    "stage": 3,
+    "bonds_sig": "falling",
+    "bonds_val": 4.26,
+    "bonds_ma": 4.1924,
+    "equities_sig": "rising",
+    "equities_val": 7109.14,
+    "equities_ma": 6689.72,
+    "commodities_sig": "rising",
+    "commodities_val": 47.15,
+    "commodities_ma": 38.705
   }
 ]
