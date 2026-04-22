@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-21T07:58:25Z",
+  "computed_at": "2026-04-22T07:54:36Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -9,7 +9,7 @@
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
       "current": 4.26,
-      "current_date": "2026-04-17",
+      "current_date": "2026-04-20",
       "ma_200d": 4.1948,
       "pct_from_ma": 1.55,
       "above_ma": true,
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7109.1401,
-      "current_date": "2026-04-20",
-      "ma_200d": 6688.2011,
-      "pct_from_ma": 6.29,
+      "current": 7064.0098,
+      "current_date": "2026-04-21",
+      "ma_200d": 6692.1244,
+      "pct_from_ma": 5.56,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 47.15,
-      "current_date": "2026-04-20",
-      "ma_200d": 38.6333,
-      "pct_from_ma": 22.04,
+      "current": 47.79,
+      "current_date": "2026-04-21",
+      "ma_200d": 38.6995,
+      "pct_from_ma": 23.49,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.54,
+      "value": 0.52,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.83,
+      "value": 2.87,
       "one_year_low": 2.64,
-      "widening_from_low": 0.19,
+      "widening_from_low": 0.23,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 17.48,
+      "value": 18.87,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -115,7 +115,7 @@
     "discount_rate": {
       "name": "Discount Rate (Primary Credit)",
       "value": 3.75,
-      "ma_200d": 4.05,
+      "ma_200d": 4.04,
       "signal": "Falling (Easing)",
       "interpretation": "The most influential indicator in the Bond Barometer. Rising rates press bond prices down.",
       "source": "https://fred.stlouisfed.org/series/DPCREDIT"
