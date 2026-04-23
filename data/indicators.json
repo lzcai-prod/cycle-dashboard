@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-22T07:54:36Z",
+  "computed_at": "2026-04-23T08:01:23Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.26,
-      "current_date": "2026-04-20",
+      "current": 4.3,
+      "current_date": "2026-04-21",
       "ma_200d": 4.1948,
-      "pct_from_ma": 1.55,
+      "pct_from_ma": 2.51,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7064.0098,
-      "current_date": "2026-04-21",
-      "ma_200d": 6692.1244,
-      "pct_from_ma": 5.56,
+      "current": 7137.8999,
+      "current_date": "2026-04-22",
+      "ma_200d": 6696.664,
+      "pct_from_ma": 6.59,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 47.79,
-      "current_date": "2026-04-21",
-      "ma_200d": 38.6995,
-      "pct_from_ma": 23.49,
+      "current": 48.2,
+      "current_date": "2026-04-22",
+      "ma_200d": 38.7692,
+      "pct_from_ma": 24.33,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.52,
+      "value": 0.51,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.87,
+      "value": 2.85,
       "one_year_low": 2.64,
-      "widening_from_low": 0.23,
+      "widening_from_low": 0.21,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 18.87,
+      "value": 19.5,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -101,12 +101,12 @@
     },
     "oil_yoy": {
       "name": "WTI Oil Year-over-Year Change",
-      "current_price": 100.72,
-      "year_ago_price": 60.04,
-      "yoy_pct": 67.75,
+      "current_price": 91.06,
+      "year_ago_price": 61.74,
+      "yoy_pct": 47.49,
       "warning_threshold_pct": 80,
       "triggered": false,
-      "interpretation": "elevated",
+      "interpretation": "normal",
       "reference": "Hamilton (1983, 2009): rapid oil price doublings precede recessions",
       "source": "https://fred.stlouisfed.org/series/DCOILWTICO"
     }
