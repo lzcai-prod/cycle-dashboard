@@ -3,8 +3,8 @@
   "unit": "claims",
   "frequency": "weekly",
   "source": "https://fred.stlouisfed.org/series/ICSA",
-  "updated": "2026-04-23T08:01:20Z",
-  "count": 999,
+  "updated": "2026-04-24T08:10:05Z",
+  "count": 1000,
   "data": [
     [
       "2007-02-24",
@@ -4000,7 +4000,11 @@
     ],
     [
       "2026-04-11",
-      207000.0
+      208000.0
+    ],
+    [
+      "2026-04-18",
+      214000.0
     ]
   ]
 }
