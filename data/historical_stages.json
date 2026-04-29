@@ -4,117 +4,117 @@
     "stage": 2,
     "bonds_sig": "rising",
     "bonds_val": 4.7,
-    "bonds_ma": 4.7473,
+    "bonds_ma": 4.7489,
     "equities_sig": "rising",
     "equities_val": 1561.8,
-    "equities_ma": 1483.79,
+    "equities_ma": 1484.32,
     "commodities_sig": "rising",
     "commodities_val": 53.54,
-    "commodities_ma": 51.133
+    "commodities_ma": 51.1379
   },
   {
     "date": "2007-10-19",
     "stage": 2,
     "bonds_sig": "rising",
     "bonds_val": 4.41,
-    "bonds_ma": 4.742,
+    "bonds_ma": 4.7435,
     "equities_sig": "rising",
     "equities_val": 1500.63,
-    "equities_ma": 1485.3,
+    "equities_ma": 1485.82,
     "commodities_sig": "rising",
     "commodities_val": 54.1,
-    "commodities_ma": 51.2224
+    "commodities_ma": 51.2277
   },
   {
     "date": "2007-10-26",
     "stage": 2,
     "bonds_sig": "rising",
     "bonds_val": 4.41,
-    "bonds_ma": 4.7318,
+    "bonds_ma": 4.7332,
     "equities_sig": "rising",
     "equities_val": 1535.28,
-    "equities_ma": 1486.27,
+    "equities_ma": 1486.78,
     "commodities_sig": "rising",
     "commodities_val": 54.68,
-    "commodities_ma": 51.3014
+    "commodities_ma": 51.307
   },
   {
     "date": "2007-11-02",
     "stage": 2,
     "bonds_sig": "rising",
     "bonds_val": 4.31,
-    "bonds_ma": 4.722,
+    "bonds_ma": 4.7233,
     "equities_sig": "rising",
     "equities_val": 1509.65,
-    "equities_ma": 1487.45,
+    "equities_ma": 1487.95,
     "commodities_sig": "rising",
     "commodities_val": 55.76,
-    "commodities_ma": 51.4153
+    "commodities_ma": 51.4214
   },
   {
     "date": "2007-11-09",
     "stage": 5,
     "bonds_sig": "rising",
     "bonds_val": 4.23,
-    "bonds_ma": 4.7108,
+    "bonds_ma": 4.712,
     "equities_sig": "falling",
     "equities_val": 1453.7,
-    "equities_ma": 1487.39,
+    "equities_ma": 1487.88,
     "commodities_sig": "rising",
     "commodities_val": 55.94,
-    "commodities_ma": 51.534
+    "commodities_ma": 51.5406
   },
   {
     "date": "2007-11-16",
     "stage": 5,
     "bonds_sig": "rising",
     "bonds_val": 4.15,
-    "bonds_ma": 4.6976,
+    "bonds_ma": 4.6986,
     "equities_sig": "falling",
     "equities_val": 1458.74,
-    "equities_ma": 1486.66,
+    "equities_ma": 1487.13,
     "commodities_sig": "rising",
     "commodities_val": 55.14,
-    "commodities_ma": 51.6263
+    "commodities_ma": 51.6332
   },
   {
     "date": "2007-11-23",
     "stage": 5,
     "bonds_sig": "rising",
     "bonds_val": 4.01,
-    "bonds_ma": 4.6836,
+    "bonds_ma": 4.6846,
     "equities_sig": "falling",
     "equities_val": 1440.7,
-    "equities_ma": 1485.52,
+    "equities_ma": 1485.98,
     "commodities_sig": "rising",
     "commodities_val": 55.81,
-    "commodities_ma": 51.7031
+    "commodities_ma": 51.7103
   },
   {
     "date": "2007-11-30",
     "stage": 5,
     "bonds_sig": "rising",
     "bonds_val": 3.97,
-    "bonds_ma": 4.6647,
+    "bonds_ma": 4.6655,
     "equities_sig": "falling",
     "equities_val": 1481.14,
-    "equities_ma": 1484.64,
+    "equities_ma": 1485.08,
     "commodities_sig": "rising",
     "commodities_val": 53.87,
-    "commodities_ma": 51.7802
+    "commodities_ma": 51.7876
   },
   {
     "date": "2007-12-07",
     "stage": 2,
     "bonds_sig": "rising",
     "bonds_val": 4.12,
-    "bonds_ma": 4.6473,
+    "bonds_ma": 4.648,
     "equities_sig": "rising",
     "equities_val": 1504.66,
-    "equities_ma": 1484.68,
+    "equities_ma": 1485.11,
     "commodities_sig": "rising",
     "commodities_val": 54.3,
-    "commodities_ma": 51.8316
+    "commodities_ma": 51.839
   },
   {
     "date": "2007-12-14",
@@ -12587,13 +12587,13 @@
     "date": "2026-05-01",
     "stage": 3,
     "bonds_sig": "falling",
-    "bonds_val": 4.31,
-    "bonds_ma": 4.1905,
+    "bonds_val": 4.35,
+    "bonds_ma": 4.1904,
     "equities_sig": "rising",
-    "equities_val": 7173.91,
-    "equities_ma": 6711.67,
+    "equities_val": 7138.8,
+    "equities_ma": 6716.02,
     "commodities_sig": "rising",
-    "commodities_val": 48.93,
-    "commodities_ma": 39.0542
+    "commodities_val": 49.34,
+    "commodities_ma": 39.1278
   }
 ]
