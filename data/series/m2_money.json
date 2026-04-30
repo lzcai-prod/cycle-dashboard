@@ -3,13 +3,9 @@
   "unit": "billions_usd",
   "frequency": "monthly",
   "source": "https://fred.stlouisfed.org/series/M2SL",
-  "updated": "2026-04-29T08:23:48Z",
-  "count": 230,
+  "updated": "2026-04-30T08:26:29Z",
+  "count": 229,
   "data": [
-    [
-      "2007-02-01",
-      7134.3
-    ],
     [
       "2007-03-01",
       7168.2

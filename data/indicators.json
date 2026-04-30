@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-04-29T08:23:50Z",
+  "computed_at": "2026-04-30T08:26:31Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.35,
-      "current_date": "2026-04-27",
-      "ma_200d": 4.1937,
-      "pct_from_ma": 3.73,
+      "current": 4.36,
+      "current_date": "2026-04-28",
+      "ma_200d": 4.1938,
+      "pct_from_ma": 3.96,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7138.7998,
-      "current_date": "2026-04-28",
-      "ma_200d": 6714.45,
-      "pct_from_ma": 6.32,
+      "current": 7135.9502,
+      "current_date": "2026-04-29",
+      "ma_200d": 6718.787,
+      "pct_from_ma": 6.21,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 49.34,
-      "current_date": "2026-04-28",
-      "ma_200d": 39.0564,
-      "pct_from_ma": 26.33,
+      "current": 50.24,
+      "current_date": "2026-04-29",
+      "ma_200d": 39.1345,
+      "pct_from_ma": 28.38,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.52,
+      "value": 0.5,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.84,
+      "value": 2.85,
       "one_year_low": 2.64,
-      "widening_from_low": 0.2,
+      "widening_from_low": 0.21,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 18.02,
+      "value": 17.83,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -101,12 +101,12 @@
     },
     "oil_yoy": {
       "name": "WTI Oil Year-over-Year Change",
-      "current_price": 91.06,
-      "year_ago_price": 61.74,
-      "yoy_pct": 47.49,
+      "current_price": 99.89,
+      "year_ago_price": 62.64,
+      "yoy_pct": 59.47,
       "warning_threshold_pct": 80,
       "triggered": false,
-      "interpretation": "normal",
+      "interpretation": "elevated",
       "reference": "Hamilton (1983, 2009): rapid oil price doublings precede recessions",
       "source": "https://fred.stlouisfed.org/series/DCOILWTICO"
     }
@@ -131,7 +131,7 @@
     "commercial_paper": {
       "name": "3-Month Commercial Paper Yield",
       "value": 3.75,
-      "ma_12m": 3.69,
+      "ma_12m": 3.7,
       "signal": "Rising Stress",
       "interpretation": "Primary financial component for the Stock Barometer. Rising short-term yields drain corporate liquidity.",
       "source": "https://fred.stlouisfed.org/series/DCPN3M"
