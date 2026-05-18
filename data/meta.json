@@ -2,7 +2,7 @@
   "project": "Cycle Dashboard",
   "description": "Pring's 6-Stage Business Cycle Model with live market data",
   "repository": "https://github.com/lzcai-prod/cycle-dashboard",
-  "updated": "2026-05-15T08:52:44Z",
+  "updated": "2026-05-18T10:11:24Z",
   "series_files": [
     "capacity_util.json",
     "commercial_paper.json",
