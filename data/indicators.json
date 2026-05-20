@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-05-19T09:52:07Z",
+  "computed_at": "2026-05-20T09:40:03Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.59,
-      "current_date": "2026-05-15",
-      "ma_200d": 4.1947,
-      "pct_from_ma": 9.42,
+      "current": 4.61,
+      "current_date": "2026-05-18",
+      "ma_200d": 4.1959,
+      "pct_from_ma": 9.87,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7403.0498,
-      "current_date": "2026-05-18",
-      "ma_200d": 6785.1892,
-      "pct_from_ma": 9.11,
+      "current": 7353.6099,
+      "current_date": "2026-05-19",
+      "ma_200d": 6790.7672,
+      "pct_from_ma": 8.29,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 50.97,
-      "current_date": "2026-05-18",
-      "ma_200d": 40.155,
-      "pct_from_ma": 26.93,
+      "current": 51.29,
+      "current_date": "2026-05-19",
+      "ma_200d": 40.2434,
+      "pct_from_ma": 27.45,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.8,
+      "value": 2.83,
       "one_year_low": 2.64,
-      "widening_from_low": 0.16,
+      "widening_from_low": 0.19,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 18.43,
+      "value": 17.82,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -130,8 +130,8 @@
     },
     "commercial_paper": {
       "name": "3-Month Commercial Paper Yield",
-      "value": 3.68,
-      "ma_12m": 3.69,
+      "value": 3.69,
+      "ma_12m": 3.7,
       "signal": "Falling Stress",
       "interpretation": "Primary financial component for the Stock Barometer. Rising short-term yields drain corporate liquidity.",
       "source": "https://fred.stlouisfed.org/series/DCPN3M"
