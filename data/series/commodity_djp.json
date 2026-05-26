@@ -3,13 +3,9 @@
   "unit": "usd",
   "frequency": "daily",
   "source": "https://finance.yahoo.com/quote/DJP/",
-  "updated": "2026-05-25T10:14:58Z",
-  "count": 4822,
+  "updated": "2026-05-26T10:02:01Z",
+  "count": 4821,
   "data": [
-    [
-      "2007-03-26",
-      50.16
-    ],
     [
       "2007-03-27",
       50.22
