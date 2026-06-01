@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-05-29T09:59:30Z",
+  "computed_at": "2026-06-01T11:41:15Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.48,
-      "current_date": "2026-05-27",
-      "ma_200d": 4.2052,
-      "pct_from_ma": 6.53,
+      "current": 4.45,
+      "current_date": "2026-05-28",
+      "ma_200d": 4.2061,
+      "pct_from_ma": 5.8,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7563.6299,
-      "current_date": "2026-05-28",
-      "ma_200d": 6825.1581,
-      "pct_from_ma": 10.82,
+      "current": 7580.0601,
+      "current_date": "2026-05-29",
+      "ma_200d": 6830.8296,
+      "pct_from_ma": 10.97,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 48.75,
-      "current_date": "2026-05-28",
-      "ma_200d": 40.7141,
-      "pct_from_ma": 19.74,
+      "current": 48.39,
+      "current_date": "2026-05-29",
+      "ma_200d": 40.7888,
+      "pct_from_ma": 18.64,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.46,
+      "value": 0.47,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.71,
+      "value": 2.72,
       "one_year_low": 2.64,
-      "widening_from_low": 0.07,
+      "widening_from_low": 0.08,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 16.29,
+      "value": 15.74,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -90,14 +90,6 @@
       },
       "triggered_level": "normal",
       "source": "https://fred.stlouisfed.org/series/VIXCLS"
-    },
-    "sahm_rule": {
-      "name": "Sahm Rule Recession Indicator",
-      "value": 0.13,
-      "threshold": 0.5,
-      "triggered": false,
-      "interpretation": "no recession signal",
-      "source": "https://fred.stlouisfed.org/series/SAHMREALTIME"
     },
     "oil_yoy": {
       "name": "WTI Oil Year-over-Year Change",
@@ -128,14 +120,6 @@
       "interpretation": "Liquidity growth drives the transition from Stage 6 to Stage 1. Sustained contraction is a heavy drag.",
       "source": "https://fred.stlouisfed.org/series/M2SL"
     },
-    "commercial_paper": {
-      "name": "3-Month Commercial Paper Yield",
-      "value": 3.69,
-      "ma_12m": 3.7,
-      "signal": "Falling Stress",
-      "interpretation": "Primary financial component for the Stock Barometer. Rising short-term yields drain corporate liquidity.",
-      "source": "https://fred.stlouisfed.org/series/DCPN3M"
-    },
     "jobless_claims": {
       "name": "Initial Jobless Claims (4-wk MA)",
       "value": 215000.0,
@@ -144,14 +128,6 @@
       "signal": "Labor Strong",
       "interpretation": "Best high-frequency leading economic indicator. Rising claims signal economic topping.",
       "source": "https://fred.stlouisfed.org/series/ICSA"
-    },
-    "capacity_util": {
-      "name": "Capacity Utilization (Total Industry)",
-      "value": 76.12,
-      "threshold": 80.0,
-      "signal": "Excess Capacity (Deflationary)",
-      "interpretation": "Measures manufacturing tightness. High utilization signals late-stage expansion and impending inflation.",
-      "source": "https://fred.stlouisfed.org/series/TCU"
     }
   },
   "stage_reference": {
