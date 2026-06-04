@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-06-03T11:05:40Z",
+  "computed_at": "2026-06-04T10:00:42Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.47,
-      "current_date": "2026-06-01",
-      "ma_200d": 4.2079,
-      "pct_from_ma": 6.23,
+      "current": 4.46,
+      "current_date": "2026-06-02",
+      "ma_200d": 4.209,
+      "pct_from_ma": 5.96,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7609.7798,
-      "current_date": "2026-06-02",
-      "ma_200d": 6842.2027,
-      "pct_from_ma": 11.22,
+      "current": 7553.6802,
+      "current_date": "2026-06-03",
+      "ma_200d": 6847.7221,
+      "pct_from_ma": 10.31,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 49.12,
-      "current_date": "2026-06-02",
-      "ma_200d": 40.9444,
-      "pct_from_ma": 19.97,
+      "current": 49.13,
+      "current_date": "2026-06-03",
+      "ma_200d": 41.0222,
+      "pct_from_ma": 19.76,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.72,
+      "value": 2.71,
       "one_year_low": 2.64,
-      "widening_from_low": 0.08,
+      "widening_from_low": 0.07,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 16.05,
+      "value": 15.77,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -91,11 +91,19 @@
       "triggered_level": "normal",
       "source": "https://fred.stlouisfed.org/series/VIXCLS"
     },
+    "sahm_rule": {
+      "name": "Sahm Rule Recession Indicator",
+      "value": 0.13,
+      "threshold": 0.5,
+      "triggered": false,
+      "interpretation": "no recession signal",
+      "source": "https://fred.stlouisfed.org/series/SAHMREALTIME"
+    },
     "oil_yoy": {
       "name": "WTI Oil Year-over-Year Change",
-      "current_price": 97.63,
-      "year_ago_price": 62.93,
-      "yoy_pct": 55.14,
+      "current_price": 95.96,
+      "year_ago_price": 62.54,
+      "yoy_pct": 53.44,
       "warning_threshold_pct": 80,
       "triggered": false,
       "interpretation": "elevated",
@@ -120,6 +128,14 @@
       "interpretation": "Liquidity growth drives the transition from Stage 6 to Stage 1. Sustained contraction is a heavy drag.",
       "source": "https://fred.stlouisfed.org/series/M2SL"
     },
+    "commercial_paper": {
+      "name": "3-Month Commercial Paper Yield",
+      "value": 3.69,
+      "ma_12m": 3.7,
+      "signal": "Falling Stress",
+      "interpretation": "Primary financial component for the Stock Barometer. Rising short-term yields drain corporate liquidity.",
+      "source": "https://fred.stlouisfed.org/series/DCPN3M"
+    },
     "jobless_claims": {
       "name": "Initial Jobless Claims (4-wk MA)",
       "value": 215000.0,
@@ -128,6 +144,14 @@
       "signal": "Labor Strong",
       "interpretation": "Best high-frequency leading economic indicator. Rising claims signal economic topping.",
       "source": "https://fred.stlouisfed.org/series/ICSA"
+    },
+    "capacity_util": {
+      "name": "Capacity Utilization (Total Industry)",
+      "value": 76.12,
+      "threshold": 80.0,
+      "signal": "Excess Capacity (Deflationary)",
+      "interpretation": "Measures manufacturing tightness. High utilization signals late-stage expansion and impending inflation.",
+      "source": "https://fred.stlouisfed.org/series/TCU"
     }
   },
   "stage_reference": {
