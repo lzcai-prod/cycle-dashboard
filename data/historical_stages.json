@@ -12574,13 +12574,13 @@
     "date": "2026-06-05",
     "stage": 3,
     "bonds_sig": "falling",
-    "bonds_val": 4.49,
-    "bonds_ma": 4.2085,
+    "bonds_val": 4.47,
+    "bonds_ma": 4.2093,
     "equities_sig": "rising",
-    "equities_val": 7584.31,
-    "equities_ma": 6854.25,
+    "equities_val": 7383.74,
+    "equities_ma": 6859.19,
     "commodities_sig": "rising",
-    "commodities_val": 48.54,
-    "commodities_ma": 41.1755
+    "commodities_val": 47.15,
+    "commodities_ma": 41.2437
   }
 ]
