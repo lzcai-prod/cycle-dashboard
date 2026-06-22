@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-06-18T10:24:33Z",
+  "computed_at": "2026-06-22T12:10:16Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.43,
-      "current_date": "2026-06-16",
-      "ma_200d": 4.2193,
-      "pct_from_ma": 4.99,
+      "current": 4.49,
+      "current_date": "2026-06-17",
+      "ma_200d": 4.2207,
+      "pct_from_ma": 6.38,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7420.1001,
-      "current_date": "2026-06-17",
-      "ma_200d": 6897.2059,
-      "pct_from_ma": 7.58,
+      "current": 7500.5801,
+      "current_date": "2026-06-18",
+      "ma_200d": 6902.6311,
+      "pct_from_ma": 8.66,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 45.19,
-      "current_date": "2026-06-17",
-      "ma_200d": 41.6525,
-      "pct_from_ma": 8.49,
+      "current": 45.01,
+      "current_date": "2026-06-18",
+      "ma_200d": 41.7033,
+      "pct_from_ma": 7.93,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.29,
+      "value": 0.27,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.71,
-      "one_year_low": 2.64,
-      "widening_from_low": 0.07,
+      "value": 2.63,
+      "one_year_low": 2.63,
+      "widening_from_low": 0.0,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 16.41,
+      "value": 18.44,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -115,7 +115,7 @@
     "discount_rate": {
       "name": "Discount Rate (Primary Credit)",
       "value": 3.75,
-      "ma_200d": 3.89,
+      "ma_200d": 3.88,
       "signal": "Falling (Easing)",
       "interpretation": "The most influential indicator in the Bond Barometer. Rising rates press bond prices down.",
       "source": "https://fred.stlouisfed.org/series/DPCREDIT"
@@ -130,18 +130,18 @@
     },
     "commercial_paper": {
       "name": "3-Month Commercial Paper Yield",
-      "value": 3.69,
+      "value": 3.67,
       "ma_12m": 3.68,
-      "signal": "Rising Stress",
+      "signal": "Falling Stress",
       "interpretation": "Primary financial component for the Stock Barometer. Rising short-term yields drain corporate liquidity.",
       "source": "https://fred.stlouisfed.org/series/DCPN3M"
     },
     "jobless_claims": {
       "name": "Initial Jobless Claims (4-wk MA)",
-      "value": 229000.0,
-      "ma_4wk": 219000.0,
-      "ma_52wk": 220154.0,
-      "signal": "Labor Strong",
+      "value": 226000.0,
+      "ma_4wk": 223250.0,
+      "ma_52wk": 219846.0,
+      "signal": "Labor Weakening",
       "interpretation": "Best high-frequency leading economic indicator. Rising claims signal economic topping.",
       "source": "https://fred.stlouisfed.org/series/ICSA"
     },
