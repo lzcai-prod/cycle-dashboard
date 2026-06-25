@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-06-24T09:36:08Z",
+  "computed_at": "2026-06-25T09:31:03Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.51,
-      "current_date": "2026-06-22",
-      "ma_200d": 4.2229,
-      "pct_from_ma": 6.8,
+      "current": 4.5,
+      "current_date": "2026-06-23",
+      "ma_200d": 4.2244,
+      "pct_from_ma": 6.53,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7365.46,
-      "current_date": "2026-06-23",
-      "ma_200d": 6912.0707,
-      "pct_from_ma": 6.56,
+      "current": 7358.2202,
+      "current_date": "2026-06-24",
+      "ma_200d": 6916.4543,
+      "pct_from_ma": 6.39,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 44.07,
-      "current_date": "2026-06-23",
-      "ma_200d": 41.801,
-      "pct_from_ma": 5.43,
+      "current": 43.16,
+      "current_date": "2026-06-24",
+      "ma_200d": 41.8448,
+      "pct_from_ma": 3.14,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.34,
+      "value": 0.3,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.65,
+      "value": 2.71,
       "one_year_low": 2.63,
-      "widening_from_low": 0.02,
+      "widening_from_low": 0.08,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 17.28,
+      "value": 19.49,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -101,9 +101,9 @@
     },
     "oil_yoy": {
       "name": "WTI Oil Year-over-Year Change",
-      "current_price": 84.65,
-      "year_ago_price": 68.91,
-      "yoy_pct": 22.84,
+      "current_price": 78.94,
+      "year_ago_price": 75.62,
+      "yoy_pct": 4.39,
       "warning_threshold_pct": 80,
       "triggered": false,
       "interpretation": "normal",
