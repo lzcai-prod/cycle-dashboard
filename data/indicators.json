@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-07-03T09:23:05Z",
+  "computed_at": "2026-07-06T10:42:31Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.74,
+      "value": 2.75,
       "one_year_low": 2.63,
-      "widening_from_low": 0.11,
+      "widening_from_low": 0.12,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,

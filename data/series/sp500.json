@@ -3,13 +3,9 @@
   "unit": "index_points",
   "frequency": "daily",
   "source": "https://finance.yahoo.com/quote/%5EGSPC/",
-  "updated": "2026-07-03T09:23:04Z",
-  "count": 4821,
+  "updated": "2026-07-06T10:42:31Z",
+  "count": 4820,
   "data": [
-    [
-      "2007-05-04",
-      1505.62
-    ],
     [
       "2007-05-07",
       1509.48
