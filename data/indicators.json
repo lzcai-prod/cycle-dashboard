@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-07-10T09:40:13Z",
+  "computed_at": "2026-07-13T09:32:49Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.56,
-      "current_date": "2026-07-08",
-      "ma_200d": 4.2439,
-      "pct_from_ma": 7.45,
+      "current": 4.54,
+      "current_date": "2026-07-09",
+      "ma_200d": 4.2461,
+      "pct_from_ma": 6.92,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7543.6401,
-      "current_date": "2026-07-09",
-      "ma_200d": 6960.73,
-      "pct_from_ma": 8.37,
+      "current": 7575.3901,
+      "current_date": "2026-07-10",
+      "ma_200d": 6965.1382,
+      "pct_from_ma": 8.76,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 45.26,
-      "current_date": "2026-07-09",
-      "ma_200d": 42.3104,
-      "pct_from_ma": 6.97,
+      "current": 45.1,
+      "current_date": "2026-07-10",
+      "ma_200d": 42.3624,
+      "pct_from_ma": 6.46,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.38,
+      "value": 0.35,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 16.9,
+      "value": 15.84,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -115,7 +115,7 @@
     "discount_rate": {
       "name": "Discount Rate (Primary Credit)",
       "value": 3.75,
-      "ma_200d": 3.84,
+      "ma_200d": 3.83,
       "signal": "Falling (Easing)",
       "interpretation": "The most influential indicator in the Bond Barometer. Rising rates press bond prices down.",
       "source": "https://fred.stlouisfed.org/series/DPCREDIT"
