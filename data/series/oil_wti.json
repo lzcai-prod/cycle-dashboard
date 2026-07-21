@@ -3,13 +3,9 @@
   "unit": "usd_per_barrel",
   "frequency": "daily",
   "source": "https://fred.stlouisfed.org/series/DCOILWTICO",
-  "updated": "2026-07-20T09:19:33Z",
-  "count": 4805,
+  "updated": "2026-07-21T08:33:11Z",
+  "count": 4804,
   "data": [
-    [
-      "2007-05-21",
-      66.25
-    ],
     [
       "2007-05-22",
       64.91
