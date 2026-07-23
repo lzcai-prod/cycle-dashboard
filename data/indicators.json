@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-07-22T08:33:09Z",
+  "computed_at": "2026-07-23T08:34:29Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.6,
-      "current_date": "2026-07-20",
-      "ma_200d": 4.2607,
-      "pct_from_ma": 7.96,
+      "current": 4.63,
+      "current_date": "2026-07-21",
+      "ma_200d": 4.263,
+      "pct_from_ma": 8.61,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7509.2002,
-      "current_date": "2026-07-21",
-      "ma_200d": 6994.9936,
-      "pct_from_ma": 7.35,
+      "current": 7498.96,
+      "current_date": "2026-07-22",
+      "ma_200d": 6998.9117,
+      "pct_from_ma": 7.14,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 47.9,
-      "current_date": "2026-07-21",
-      "ma_200d": 42.7658,
-      "pct_from_ma": 12.01,
+      "current": 48.46,
+      "current_date": "2026-07-22",
+      "ma_200d": 42.8309,
+      "pct_from_ma": 13.14,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.37,
+      "value": 0.36,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 18.65,
+      "value": 17.05,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -101,9 +101,9 @@
     },
     "oil_yoy": {
       "name": "WTI Oil Year-over-Year Change",
-      "current_price": 79.2,
-      "year_ago_price": 69.61,
-      "yoy_pct": 13.78,
+      "current_price": 84.38,
+      "year_ago_price": 67.13,
+      "yoy_pct": 25.7,
       "warning_threshold_pct": 80,
       "triggered": false,
       "interpretation": "normal",
@@ -115,7 +115,7 @@
     "discount_rate": {
       "name": "Discount Rate (Primary Credit)",
       "value": 3.75,
-      "ma_200d": 3.82,
+      "ma_200d": 3.81,
       "signal": "Falling (Easing)",
       "interpretation": "The most influential indicator in the Bond Barometer. Rising rates press bond prices down.",
       "source": "https://fred.stlouisfed.org/series/DPCREDIT"
@@ -130,9 +130,9 @@
     },
     "commercial_paper": {
       "name": "3-Month Commercial Paper Yield",
-      "value": 3.72,
-      "ma_12m": 3.68,
-      "signal": "Rising Stress",
+      "value": 3.68,
+      "ma_12m": 3.69,
+      "signal": "Falling Stress",
       "interpretation": "Primary financial component for the Stock Barometer. Rising short-term yields drain corporate liquidity.",
       "source": "https://fred.stlouisfed.org/series/DCPN3M"
     },
