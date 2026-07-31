@@ -3,13 +3,9 @@
   "unit": "percent",
   "frequency": "monthly",
   "source": "https://fred.stlouisfed.org/series/TCU",
-  "updated": "2026-07-30T08:31:02Z",
-  "count": 230,
+  "updated": "2026-07-31T08:52:58Z",
+  "count": 229,
   "data": [
-    [
-      "2007-05-01",
-      81.0044
-    ],
     [
       "2007-06-01",
       80.9238
