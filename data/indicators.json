@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-08-13T07:37:52Z",
+  "computed_at": "2026-08-14T07:27:43Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.7,
-      "current_date": "2026-08-11",
-      "ma_200d": 4.3087,
-      "pct_from_ma": 9.08,
+      "current": 4.68,
+      "current_date": "2026-08-12",
+      "ma_200d": 4.312,
+      "pct_from_ma": 8.53,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7748.5,
-      "current_date": "2026-08-12",
-      "ma_200d": 7065.3128,
-      "pct_from_ma": 9.67,
+      "current": 7798.9902,
+      "current_date": "2026-08-13",
+      "ma_200d": 7070.3493,
+      "pct_from_ma": 10.31,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 48.86,
-      "current_date": "2026-08-12",
-      "ma_200d": 43.5165,
-      "pct_from_ma": 12.28,
+      "current": 48.17,
+      "current_date": "2026-08-13",
+      "ma_200d": 43.7504,
+      "pct_from_ma": 10.1,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.72,
+      "value": 2.71,
       "one_year_low": 2.63,
-      "widening_from_low": 0.09,
+      "widening_from_low": 0.08,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 15.28,
+      "value": 14.55,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -138,9 +138,9 @@
     },
     "jobless_claims": {
       "name": "Initial Jobless Claims (4-wk MA)",
-      "value": 199000.0,
-      "ma_4wk": 198750.0,
-      "ma_52wk": 217288.0,
+      "value": 209000.0,
+      "ma_4wk": 199000.0,
+      "ma_52wk": 217019.0,
       "signal": "Labor Strong",
       "interpretation": "Best high-frequency leading economic indicator. Rising claims signal economic topping.",
       "source": "https://fred.stlouisfed.org/series/ICSA"
