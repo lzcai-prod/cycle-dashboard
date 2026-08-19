@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-08-18T06:47:47Z",
+  "computed_at": "2026-08-19T06:48:21Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.68,
-      "current_date": "2026-08-14",
-      "ma_200d": 4.3184,
-      "pct_from_ma": 8.37,
+      "current": 4.72,
+      "current_date": "2026-08-17",
+      "ma_200d": 4.322,
+      "pct_from_ma": 9.21,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7785.7598,
-      "current_date": "2026-08-14",
-      "ma_200d": 7064.4394,
-      "pct_from_ma": 10.21,
+      "current": 7745.0601,
+      "current_date": "2026-08-17",
+      "ma_200d": 7069.4725,
+      "pct_from_ma": 9.56,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 48.61,
-      "current_date": "2026-08-14",
-      "ma_200d": 43.6398,
-      "pct_from_ma": 11.39,
+      "current": 49.39,
+      "current_date": "2026-08-18",
+      "ma_200d": 43.9467,
+      "pct_from_ma": 12.39,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.53,
+      "value": 0.52,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.67,
+      "value": 2.7,
       "one_year_low": 2.63,
-      "widening_from_low": 0.04,
+      "widening_from_low": 0.07,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 14.25,
+      "value": 15.19,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -147,7 +147,7 @@
     },
     "capacity_util": {
       "name": "Capacity Utilization (Total Industry)",
-      "value": 76.09,
+      "value": 76.29,
       "threshold": 80.0,
       "signal": "Excess Capacity (Deflationary)",
       "interpretation": "Measures manufacturing tightness. High utilization signals late-stage expansion and impending inflation.",
