@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-08-28T18:20:36Z",
+  "computed_at": "2026-08-31T13:04:47Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.66,
-      "current_date": "2026-08-26",
-      "ma_200d": 4.3419,
-      "pct_from_ma": 7.33,
+      "current": 4.67,
+      "current_date": "2026-08-27",
+      "ma_200d": 4.3448,
+      "pct_from_ma": 7.49,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7712.46,
+      "current": 7711.7598,
       "current_date": "2026-08-28",
-      "ma_200d": 7118.7235,
-      "pct_from_ma": 8.34,
+      "ma_200d": 7118.72,
+      "pct_from_ma": 8.33,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 50.56,
+      "current": 50.66,
       "current_date": "2026-08-28",
-      "ma_200d": 44.4932,
-      "pct_from_ma": 13.64,
+      "ma_200d": 44.4937,
+      "pct_from_ma": 13.86,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.47,
+      "value": 0.39,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -130,7 +130,7 @@
     },
     "commercial_paper": {
       "name": "3-Month Commercial Paper Yield",
-      "value": 3.68,
+      "value": 3.7,
       "ma_12m": 3.73,
       "signal": "Falling Stress",
       "interpretation": "Primary financial component for the Stock Barometer. Rising short-term yields drain corporate liquidity.",

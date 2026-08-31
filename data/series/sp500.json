@@ -3,13 +3,9 @@
   "unit": "index_points",
   "frequency": "daily",
   "source": "https://finance.yahoo.com/quote/%5EGSPC/",
-  "updated": "2026-08-28T18:20:36Z",
-  "count": 4822,
+  "updated": "2026-08-31T13:04:47Z",
+  "count": 4821,
   "data": [
-    [
-      "2007-06-29",
-      1503.35
-    ],
     [
       "2007-07-02",
       1519.4301
@@ -19292,7 +19288,7 @@
     ],
     [
       "2026-08-28",
-      7712.46
+      7711.7598
     ]
   ]
 }
