@@ -3,8 +3,8 @@
   "unit": "index",
   "frequency": "daily",
   "source": "https://fred.stlouisfed.org/series/VIXCLS",
-  "updated": "2026-09-02T10:53:43Z",
-  "count": 4852,
+  "updated": "2026-09-03T10:53:20Z",
+  "count": 4853,
   "data": [
     [
       "2007-07-05",
@@ -19413,6 +19413,10 @@
     [
       "2026-08-31",
       14.92
+    ],
+    [
+      "2026-09-01",
+      16.34
     ]
   ]
 }

@@ -12564,23 +12564,23 @@
     "bonds_val": 4.73,
     "bonds_ma": 4.3478,
     "equities_sig": "rising",
-    "equities_val": 7730.99,
-    "equities_ma": 7117.5,
+    "equities_val": 7711.76,
+    "equities_ma": 7117.4,
     "commodities_sig": "rising",
-    "commodities_val": 50.67,
+    "commodities_val": 50.66,
     "commodities_ma": 44.5502
   },
   {
     "date": "2026-09-04",
     "stage": 3,
     "bonds_sig": "falling",
-    "bonds_val": 4.75,
-    "bonds_ma": 4.3543,
+    "bonds_val": 4.79,
+    "bonds_ma": 4.3577,
     "equities_sig": "rising",
-    "equities_val": 7631.47,
-    "equities_ma": 7126.14,
+    "equities_val": 7666.6,
+    "equities_ma": 7130.71,
     "commodities_sig": "rising",
-    "commodities_val": 52.01,
-    "commodities_ma": 44.6919
+    "commodities_val": 52.04,
+    "commodities_ma": 44.7663
   }
 ]
