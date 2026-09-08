@@ -3,13 +3,9 @@
   "unit": "percent",
   "frequency": "daily",
   "source": "https://fred.stlouisfed.org/series/DGS10",
-  "updated": "2026-09-07T11:56:11Z",
-  "count": 4793,
+  "updated": "2026-09-08T10:51:58Z",
+  "count": 4792,
   "data": [
-    [
-      "2007-07-09",
-      5.16
-    ],
     [
       "2007-07-10",
       5.03
