@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-09-28T13:16:08Z",
+  "computed_at": "2026-09-29T12:23:28Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 5.18,
-      "current_date": "2026-09-24",
-      "ma_200d": 4.4226,
-      "pct_from_ma": 17.13,
+      "current": 5.17,
+      "current_date": "2026-09-25",
+      "ma_200d": 4.4275,
+      "pct_from_ma": 16.77,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7743.4102,
-      "current_date": "2026-09-25",
-      "ma_200d": 7205.2028,
-      "pct_from_ma": 7.47,
+      "current": 7683.6899,
+      "current_date": "2026-09-28",
+      "ma_200d": 7209.4187,
+      "pct_from_ma": 6.58,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 52.78,
-      "current_date": "2026-09-25",
-      "ma_200d": 45.934,
-      "pct_from_ma": 14.9,
+      "current": 51.74,
+      "current_date": "2026-09-28",
+      "ma_200d": 46.0052,
+      "pct_from_ma": 12.47,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.36,
+      "value": 0.32,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 2.8,
+      "value": 2.93,
       "one_year_low": 2.6,
-      "widening_from_low": 0.2,
+      "widening_from_low": 0.33,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
