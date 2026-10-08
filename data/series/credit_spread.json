@@ -3,8 +3,8 @@
   "unit": "percent",
   "frequency": "daily",
   "source": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
-  "updated": "2026-10-07T12:54:03Z",
-  "count": 784,
+  "updated": "2026-10-08T13:02:32Z",
+  "count": 785,
   "data": [
     [
       "2023-10-09",
@@ -3141,6 +3141,10 @@
     [
       "2026-10-05",
       3.12
+    ],
+    [
+      "2026-10-06",
+      3.03
     ]
   ]
 }
