@@ -3,13 +3,9 @@
   "unit": "percent",
   "frequency": "daily",
   "source": "https://fred.stlouisfed.org/series/DPCREDIT",
-  "updated": "2026-10-15T11:02:47Z",
+  "updated": "2026-10-16T10:58:32Z",
   "count": 4999,
   "data": [
-    [
-      "2007-08-16",
-      6.25
-    ],
     [
       "2007-08-17",
       5.75
@@ -20000,6 +19996,10 @@
     ],
     [
       "2026-10-13",
+      4.0
+    ],
+    [
+      "2026-10-14",
       4.0
     ]
   ]

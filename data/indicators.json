@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-10-15T11:02:50Z",
+  "computed_at": "2026-10-16T10:58:36Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 5.21,
-      "current_date": "2026-10-13",
-      "ma_200d": 4.4881,
-      "pct_from_ma": 16.09,
+      "current": 5.19,
+      "current_date": "2026-10-14",
+      "ma_200d": 4.4933,
+      "pct_from_ma": 15.51,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7718.9399,
-      "current_date": "2026-10-14",
-      "ma_200d": 7263.4282,
-      "pct_from_ma": 6.27,
+      "current": 7744.0601,
+      "current_date": "2026-10-15",
+      "ma_200d": 7267.6198,
+      "pct_from_ma": 6.56,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 52.51,
-      "current_date": "2026-10-14",
-      "ma_200d": 46.8685,
-      "pct_from_ma": 12.04,
+      "current": 52.49,
+      "current_date": "2026-10-15",
+      "ma_200d": 46.9411,
+      "pct_from_ma": 11.82,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.37,
+      "value": 0.33,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 3.16,
+      "value": 3.25,
       "one_year_low": 2.6,
-      "widening_from_low": 0.56,
+      "widening_from_low": 0.65,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 15.27,
+      "value": 16.87,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -101,9 +101,9 @@
     },
     "oil_yoy": {
       "name": "WTI Oil Year-over-Year Change",
-      "current_price": 96.24,
-      "year_ago_price": 61.28,
-      "yoy_pct": 57.05,
+      "current_price": 101.91,
+      "year_ago_price": 59.75,
+      "yoy_pct": 70.56,
       "warning_threshold_pct": 80,
       "triggered": false,
       "interpretation": "elevated",
@@ -138,9 +138,9 @@
     },
     "jobless_claims": {
       "name": "Initial Jobless Claims (4-wk MA)",
-      "value": 197000.0,
-      "ma_4wk": 198000.0,
-      "ma_52wk": 212269.0,
+      "value": 199000.0,
+      "ma_4wk": 198500.0,
+      "ma_52wk": 211846.0,
       "signal": "Labor Strong",
       "interpretation": "Best high-frequency leading economic indicator. Rising claims signal economic topping.",
       "source": "https://fred.stlouisfed.org/series/ICSA"
