@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-10-16T10:58:36Z",
+  "computed_at": "2026-10-19T12:33:10Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 5.19,
-      "current_date": "2026-10-14",
-      "ma_200d": 4.4933,
-      "pct_from_ma": 15.51,
+      "current": 5.1,
+      "current_date": "2026-10-15",
+      "ma_200d": 4.4982,
+      "pct_from_ma": 13.38,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7744.0601,
-      "current_date": "2026-10-15",
-      "ma_200d": 7267.6198,
-      "pct_from_ma": 6.56,
+      "current": 7659.4399,
+      "current_date": "2026-10-16",
+      "ma_200d": 7271.4358,
+      "pct_from_ma": 5.34,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 52.49,
-      "current_date": "2026-10-15",
-      "ma_200d": 46.9411,
-      "pct_from_ma": 11.82,
+      "current": 52.72,
+      "current_date": "2026-10-16",
+      "ma_200d": 47.0132,
+      "pct_from_ma": 12.14,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.33,
+      "value": 0.35,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 3.25,
+      "value": 3.23,
       "one_year_low": 2.6,
-      "widening_from_low": 0.65,
+      "widening_from_low": 0.63,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 16.87,
+      "value": 16.46,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -115,7 +115,7 @@
     "discount_rate": {
       "name": "Discount Rate (Primary Credit)",
       "value": 4.0,
-      "ma_200d": 3.77,
+      "ma_200d": 3.78,
       "signal": "Rising (Tightening)",
       "interpretation": "The most influential indicator in the Bond Barometer. Rising rates press bond prices down.",
       "source": "https://fred.stlouisfed.org/series/DPCREDIT"
@@ -147,7 +147,7 @@
     },
     "capacity_util": {
       "name": "Capacity Utilization (Total Industry)",
-      "value": 76.27,
+      "value": 76.85,
       "threshold": 80.0,
       "signal": "Excess Capacity (Deflationary)",
       "interpretation": "Measures manufacturing tightness. High utilization signals late-stage expansion and impending inflation.",
