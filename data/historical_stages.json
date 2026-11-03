@@ -12561,8 +12561,8 @@
     "date": "2026-10-30",
     "stage": 3,
     "bonds_sig": "falling",
-    "bonds_val": 4.98,
-    "bonds_ma": 4.5513,
+    "bonds_val": 4.94,
+    "bonds_ma": 4.5511,
     "equities_sig": "rising",
     "equities_val": 7580.07,
     "equities_ma": 7307.95,
@@ -12574,13 +12574,13 @@
     "date": "2026-11-06",
     "stage": 3,
     "bonds_sig": "falling",
-    "bonds_val": 4.98,
-    "bonds_ma": 4.555,
+    "bonds_val": 4.94,
+    "bonds_ma": 4.5546,
     "equities_sig": "rising",
-    "equities_val": 7627.78,
-    "equities_ma": 7311.39,
+    "equities_val": 7541.4,
+    "equities_ma": 7310.96,
     "commodities_sig": "rising",
-    "commodities_val": 50.38,
-    "commodities_ma": 47.7821
+    "commodities_val": 49.86,
+    "commodities_ma": 47.7795
   }
 ]

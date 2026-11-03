@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-11-02T15:04:35Z",
+  "computed_at": "2026-11-03T13:49:47Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.98,
-      "current_date": "2026-10-29",
-      "ma_200d": 4.5418,
-      "pct_from_ma": 9.65,
+      "current": 4.94,
+      "current_date": "2026-10-30",
+      "ma_200d": 4.5457,
+      "pct_from_ma": 8.67,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7627.7798,
+      "current": 7541.3999,
       "current_date": "2026-11-02",
-      "ma_200d": 7313.1737,
-      "pct_from_ma": 4.3,
+      "ma_200d": 7312.7418,
+      "pct_from_ma": 3.13,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 50.38,
+      "current": 49.86,
       "current_date": "2026-11-02",
-      "ma_200d": 47.7335,
-      "pct_from_ma": 5.54,
+      "ma_200d": 47.7309,
+      "pct_from_ma": 4.46,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.38,
+      "value": 0.32,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 3.26,
+      "value": 3.44,
       "one_year_low": 2.6,
-      "widening_from_low": 0.66,
+      "widening_from_low": 0.84,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,

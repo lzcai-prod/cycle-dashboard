@@ -3,7 +3,7 @@
   "unit": "usd",
   "frequency": "daily",
   "source": "https://finance.yahoo.com/quote/DJP/",
-  "updated": "2026-11-02T15:04:35Z",
+  "updated": "2026-11-03T13:49:47Z",
   "count": 4822,
   "data": [
     [
@@ -19292,7 +19292,7 @@
     ],
     [
       "2026-11-02",
-      50.38
+      49.86
     ]
   ]
 }
