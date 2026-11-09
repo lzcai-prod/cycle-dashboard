@@ -3,8 +3,8 @@
   "unit": "percentage_points",
   "frequency": "monthly",
   "source": "https://fred.stlouisfed.org/series/SAHMREALTIME",
-  "updated": "2026-11-06T13:55:29Z",
-  "count": 228,
+  "updated": "2026-11-09T15:35:29Z",
+  "count": 229,
   "data": [
     [
       "2007-09-01",
@@ -916,6 +916,10 @@
     ],
     [
       "2026-09-01",
+      0.0
+    ],
+    [
+      "2026-10-01",
       0.0
     ]
   ]
