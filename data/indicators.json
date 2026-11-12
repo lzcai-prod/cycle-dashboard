@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-11-11T13:46:49Z",
+  "computed_at": "2026-11-12T14:50:16Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7520.9302,
-      "current_date": "2026-11-10",
-      "ma_200d": 7331.0784,
-      "pct_from_ma": 2.59,
+      "current": 7595.23,
+      "current_date": "2026-11-12",
+      "ma_200d": 7337.3683,
+      "pct_from_ma": 3.51,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 48.16,
-      "current_date": "2026-11-10",
-      "ma_200d": 47.97,
-      "pct_from_ma": 0.4,
+      "current": 48.38,
+      "current_date": "2026-11-12",
+      "ma_200d": 48.0244,
+      "pct_from_ma": 0.74,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 3.34,
+      "value": 3.3,
       "one_year_low": 2.6,
-      "widening_from_low": 0.74,
+      "widening_from_low": 0.7,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 19.92,
+      "value": 17.49,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -138,9 +138,9 @@
     },
     "jobless_claims": {
       "name": "Initial Jobless Claims (4-wk MA)",
-      "value": 189000.0,
-      "ma_4wk": 194750.0,
-      "ma_52wk": 209923.0,
+      "value": 200000.0,
+      "ma_4wk": 195250.0,
+      "ma_52wk": 209423.0,
       "signal": "Labor Strong",
       "interpretation": "Best high-frequency leading economic indicator. Rising claims signal economic topping.",
       "source": "https://fred.stlouisfed.org/series/ICSA"
