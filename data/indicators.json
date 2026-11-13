@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-11-12T14:50:16Z",
+  "computed_at": "2026-11-13T14:11:19Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 4.88,
-      "current_date": "2026-11-09",
-      "ma_200d": 4.5651,
-      "pct_from_ma": 6.9,
+      "current": 4.98,
+      "current_date": "2026-11-10",
+      "ma_200d": 4.5689,
+      "pct_from_ma": 9.0,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7595.23,
+      "current": 7592.3999,
       "current_date": "2026-11-12",
-      "ma_200d": 7337.3683,
-      "pct_from_ma": 3.51,
+      "ma_200d": 7337.3542,
+      "pct_from_ma": 3.48,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 48.38,
+      "current": 48.51,
       "current_date": "2026-11-12",
-      "ma_200d": 48.0244,
-      "pct_from_ma": 0.74,
+      "ma_200d": 48.025,
+      "pct_from_ma": 1.01,
       "above_ma": true,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.25,
+      "value": 0.24,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -101,12 +101,12 @@
     },
     "oil_yoy": {
       "name": "WTI Oil Year-over-Year Change",
-      "current_price": 99.64,
-      "year_ago_price": 61.75,
-      "yoy_pct": 61.36,
+      "current_price": 89.62,
+      "year_ago_price": 60.94,
+      "yoy_pct": 47.06,
       "warning_threshold_pct": 80,
       "triggered": false,
-      "interpretation": "elevated",
+      "interpretation": "normal",
       "reference": "Hamilton (1983, 2009): rapid oil price doublings precede recessions",
       "source": "https://fred.stlouisfed.org/series/DCOILWTICO"
     }
