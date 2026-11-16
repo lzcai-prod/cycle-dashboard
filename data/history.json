@@ -22,5 +22,13 @@
     "bonds": "falling",
     "equities": "rising",
     "commodities": "rising"
+  },
+  {
+    "date": "2026-11-16",
+    "stage": 4,
+    "label": "Late Expansion",
+    "bonds": "falling",
+    "equities": "rising",
+    "commodities": "falling"
   }
 ]
