@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-11-17T15:40:56Z",
+  "computed_at": "2026-11-18T15:19:34Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -8,10 +8,10 @@
     "bonds": {
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
-      "current": 5.15,
-      "current_date": "2026-11-13",
-      "ma_200d": 4.5777,
-      "pct_from_ma": 12.5,
+      "current": 5.12,
+      "current_date": "2026-11-16",
+      "ma_200d": 4.5821,
+      "pct_from_ma": 11.74,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,23 +21,23 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7344.98,
-      "current_date": "2026-11-17",
-      "ma_200d": 7344.548,
-      "pct_from_ma": 0.01,
-      "above_ma": true,
+      "current": 7339.8101,
+      "current_date": "2026-11-18",
+      "ma_200d": 7346.6357,
+      "pct_from_ma": -0.09,
+      "above_ma": false,
       "inversion": false,
       "inversion_reason": null,
-      "signal": "rising",
-      "signal_changed_date": "2026-04-08"
+      "signal": "falling",
+      "signal_changed_date": "2026-11-17"
     },
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 47.55,
-      "current_date": "2026-11-17",
-      "ma_200d": 48.1098,
-      "pct_from_ma": -1.16,
+      "current": 46.705,
+      "current_date": "2026-11-18",
+      "ma_200d": 48.1369,
+      "pct_from_ma": -2.97,
       "above_ma": false,
       "inversion": false,
       "inversion_reason": null,
@@ -46,23 +46,23 @@
     }
   },
   "stage": {
-    "stage": 4,
-    "label": "Late Expansion",
+    "stage": 6,
+    "label": "Full Recession",
     "bonds": "falling",
-    "equities": "rising",
+    "equities": "falling",
     "commodities": "falling"
   },
   "allocation": {
-    "bonds": "underweight",
-    "equities": "neutral",
-    "commodities": "overweight",
-    "cash": "low",
-    "rationale": "Equities topping, commodities still strong. Watch for equity weakness."
+    "bonds": "neutral",
+    "equities": "underweight",
+    "commodities": "underweight",
+    "cash": "maximum",
+    "rationale": "Everything falling. Maximum cash. Wait for bond barometer to turn up (Stage 1)."
   },
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.29,
+      "value": 0.3,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 3.23,
+      "value": 3.34,
       "one_year_low": 2.6,
-      "widening_from_low": 0.63,
+      "widening_from_low": 0.74,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,13 +82,13 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 22.91,
+      "value": 25.46,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
         "panic": 40
       },
-      "triggered_level": "normal",
+      "triggered_level": "elevated",
       "source": "https://fred.stlouisfed.org/series/VIXCLS"
     },
     "sahm_rule": {

@@ -4,104 +4,104 @@
     "stage": 5,
     "bonds_sig": "rising",
     "bonds_val": 3.77,
-    "bonds_ma": 3.9642,
+    "bonds_ma": 3.9609,
     "equities_sig": "falling",
     "equities_val": 1388.28,
-    "equities_ma": 1422.13,
+    "equities_ma": 1421.53,
     "commodities_sig": "rising",
     "commodities_val": 66.38,
-    "commodities_ma": 58.6834
+    "commodities_ma": 58.7194
   },
   {
     "date": "2008-05-16",
     "stage": 2,
     "bonds_sig": "rising",
     "bonds_val": 3.85,
-    "bonds_ma": 3.961,
+    "bonds_ma": 3.9578,
     "equities_sig": "rising",
     "equities_val": 1425.35,
-    "equities_ma": 1421.86,
+    "equities_ma": 1421.27,
     "commodities_sig": "rising",
     "commodities_val": 66.21,
-    "commodities_ma": 58.8995
+    "commodities_ma": 58.9357
   },
   {
     "date": "2008-05-23",
     "stage": 5,
     "bonds_sig": "rising",
     "bonds_val": 3.85,
-    "bonds_ma": 3.9575,
+    "bonds_ma": 3.9543,
     "equities_sig": "falling",
     "equities_val": 1375.93,
-    "equities_ma": 1421.23,
+    "equities_ma": 1420.66,
     "commodities_sig": "rising",
     "commodities_val": 67.27,
-    "commodities_ma": 59.125
+    "commodities_ma": 59.1615
   },
   {
     "date": "2008-05-30",
     "stage": 5,
     "bonds_sig": "falling",
     "bonds_val": 4.06,
-    "bonds_ma": 3.959,
+    "bonds_ma": 3.9559,
     "equities_sig": "falling",
     "equities_val": 1400.38,
-    "equities_ma": 1420.61,
+    "equities_ma": 1420.05,
     "commodities_sig": "rising",
     "commodities_val": 65.5,
-    "commodities_ma": 59.2744
+    "commodities_ma": 59.3109
   },
   {
     "date": "2008-06-06",
     "stage": 5,
     "bonds_sig": "rising",
     "bonds_val": 3.94,
-    "bonds_ma": 3.9595,
+    "bonds_ma": 3.9565,
     "equities_sig": "falling",
     "equities_val": 1360.68,
-    "equities_ma": 1419.52,
+    "equities_ma": 1418.97,
     "commodities_sig": "rising",
     "commodities_val": 68.69,
-    "commodities_ma": 59.4686
+    "commodities_ma": 59.5052
   },
   {
     "date": "2008-06-13",
     "stage": 5,
     "bonds_sig": "falling",
     "bonds_val": 4.27,
-    "bonds_ma": 3.9644,
+    "bonds_ma": 3.9616,
     "equities_sig": "falling",
     "equities_val": 1360.03,
-    "equities_ma": 1417.69,
+    "equities_ma": 1417.14,
     "commodities_sig": "rising",
     "commodities_val": 69.3,
-    "commodities_ma": 59.7082
+    "commodities_ma": 59.7451
   },
   {
     "date": "2008-06-20",
     "stage": 5,
     "bonds_sig": "falling",
     "bonds_val": 4.16,
-    "bonds_ma": 3.9707,
+    "bonds_ma": 3.9679,
     "equities_sig": "falling",
     "equities_val": 1317.93,
-    "equities_ma": 1415.72,
+    "equities_ma": 1415.18,
     "commodities_sig": "rising",
     "commodities_val": 70.47,
-    "commodities_ma": 59.9823
+    "commodities_ma": 60.0197
   },
   {
     "date": "2008-06-27",
     "stage": 5,
     "bonds_sig": "falling",
     "bonds_val": 3.99,
-    "bonds_ma": 3.9738,
+    "bonds_ma": 3.9711,
     "equities_sig": "falling",
     "equities_val": 1278.38,
-    "equities_ma": 1412.86,
+    "equities_ma": 1412.32,
     "commodities_sig": "rising",
     "commodities_val": 71.71,
-    "commodities_ma": 60.2569
+    "commodities_ma": 60.2947
   },
   {
     "date": "2008-07-04",
@@ -12572,15 +12572,15 @@
   },
   {
     "date": "2026-11-20",
-    "stage": 4,
+    "stage": 6,
     "bonds_sig": "falling",
-    "bonds_val": 5.15,
-    "bonds_ma": 4.5949,
-    "equities_sig": "rising",
-    "equities_val": 7344.98,
-    "equities_ma": 7342.87,
+    "bonds_val": 5.12,
+    "bonds_ma": 4.5987,
+    "equities_sig": "falling",
+    "equities_val": 7339.81,
+    "equities_ma": 7345.14,
     "commodities_sig": "falling",
-    "commodities_val": 47.55,
-    "commodities_ma": 48.1483
+    "commodities_val": 46.705,
+    "commodities_ma": 48.1745
   }
 ]

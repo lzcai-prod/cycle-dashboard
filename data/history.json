@@ -30,5 +30,13 @@
     "bonds": "falling",
     "equities": "rising",
     "commodities": "falling"
+  },
+  {
+    "date": "2026-11-18",
+    "stage": 6,
+    "label": "Full Recession",
+    "bonds": "falling",
+    "equities": "falling",
+    "commodities": "falling"
   }
 ]
