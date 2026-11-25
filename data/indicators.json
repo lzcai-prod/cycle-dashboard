@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-11-24T17:10:59Z",
+  "computed_at": "2026-11-25T16:56:48Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -9,9 +9,9 @@
       "name": "Bond Barometer (10Y Treasury Yield)",
       "status": "ok",
       "current": 4.92,
-      "current_date": "2026-11-20",
-      "ma_200d": 4.5971,
-      "pct_from_ma": 7.02,
+      "current_date": "2026-11-23",
+      "ma_200d": 4.6006,
+      "pct_from_ma": 6.94,
       "above_ma": true,
       "inversion": true,
       "inversion_reason": "Yields are inverse to bond prices. Yield above MA = bond prices falling.",
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7201.8901,
-      "current_date": "2026-11-24",
-      "ma_200d": 7351.29,
-      "pct_from_ma": -2.03,
+      "current": 7017.5801,
+      "current_date": "2026-11-25",
+      "ma_200d": 7351.6649,
+      "pct_from_ma": -4.54,
       "above_ma": false,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 45.47,
-      "current_date": "2026-11-24",
-      "ma_200d": 48.2303,
-      "pct_from_ma": -5.72,
+      "current": 45.4333,
+      "current_date": "2026-11-25",
+      "ma_200d": 48.2516,
+      "pct_from_ma": -5.84,
       "above_ma": false,
       "inversion": false,
       "inversion_reason": null,
@@ -62,7 +62,7 @@
   "threshold_alerts": {
     "yield_curve_inversion": {
       "name": "Yield Curve Inversion (10Y - 2Y < 0)",
-      "value": 0.29,
+      "value": 0.28,
       "threshold": 0,
       "triggered": false,
       "interpretation": "normal \u2014 positive slope",
@@ -70,9 +70,9 @@
     },
     "credit_spread": {
       "name": "HY Credit Spread (OAS)",
-      "value": 3.63,
+      "value": 3.72,
       "one_year_low": 2.6,
-      "widening_from_low": 1.03,
+      "widening_from_low": 1.12,
       "warning_threshold": 3.0,
       "warning_widening_threshold": 3.0,
       "level_triggered": false,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 26.62,
+      "value": 26.36,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
@@ -122,8 +122,8 @@
     },
     "m2_money": {
       "name": "M2 Money Supply (YoY Growth)",
-      "value": 23413.9,
-      "yoy_pct": 5.71,
+      "value": 23532.8,
+      "yoy_pct": 5.89,
       "signal": "Positive Liquidity",
       "interpretation": "Liquidity growth drives the transition from Stage 6 to Stage 1. Sustained contraction is a heavy drag.",
       "source": "https://fred.stlouisfed.org/series/M2SL"
@@ -138,9 +138,9 @@
     },
     "jobless_claims": {
       "name": "Initial Jobless Claims (4-wk MA)",
-      "value": 203000.0,
-      "ma_4wk": 197750.0,
-      "ma_52wk": 209096.0,
+      "value": 189000.0,
+      "ma_4wk": 196000.0,
+      "ma_52wk": 208519.0,
       "signal": "Labor Strong",
       "interpretation": "Best high-frequency leading economic indicator. Rising claims signal economic topping.",
       "source": "https://fred.stlouisfed.org/series/ICSA"
