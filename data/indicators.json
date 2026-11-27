@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-11-26T16:35:07Z",
+  "computed_at": "2026-11-27T16:20:51Z",
   "ma_period": {
     "days": 200,
     "label": "200-day (~10 month)"
@@ -21,10 +21,10 @@
     "equities": {
       "name": "Equity Barometer (S&P 500)",
       "status": "ok",
-      "current": 7182.7798,
-      "current_date": "2026-11-25",
-      "ma_200d": 7352.4909,
-      "pct_from_ma": -2.31,
+      "current": 7264.9302,
+      "current_date": "2026-11-27",
+      "ma_200d": 7354.1082,
+      "pct_from_ma": -1.21,
       "above_ma": false,
       "inversion": false,
       "inversion_reason": null,
@@ -34,10 +34,10 @@
     "commodities": {
       "name": "Commodity Barometer (DJP)",
       "status": "ok",
-      "current": 46.11,
-      "current_date": "2026-11-25",
-      "ma_200d": 48.2549,
-      "pct_from_ma": -4.45,
+      "current": 46.515,
+      "current_date": "2026-11-27",
+      "ma_200d": 48.2801,
+      "pct_from_ma": -3.66,
       "above_ma": false,
       "inversion": false,
       "inversion_reason": null,
@@ -82,7 +82,7 @@
     },
     "vix": {
       "name": "VIX (Implied Volatility)",
-      "value": 26.36,
+      "value": 26.8,
       "thresholds": {
         "elevated": 25,
         "high_fear": 30,
